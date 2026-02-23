@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "73a63b7f672b88f7e9992f6917eb458a8cbb6fa9"
+    },
     "com.unity.burst": {
       "version": "1.8.21",
       "depth": 1,
@@ -7,6 +14,15 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
         "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.10.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -153,6 +169,27 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.zloivan.eventbus": {
+      "version": "https://github.com/zloivan/event-bus.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fce74995d0ebb07bbd61ccd9b30699f4e18f2fc2"
+    },
+    "com.zloivan.soundsystem": {
+      "version": "https://github.com/zloivan/sound-system.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "10e3d62927278b230c01c9b6eda8eddec0af4839"
+    },
+    "jp.hadashikick.vcontainer": {
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.17.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "177dbda557fd652ce7f5d1647a3621653e094373"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
