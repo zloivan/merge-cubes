@@ -14,5 +14,6 @@ namespace MergeCubes.Config
         public float BlockFallDuration;
         public float BlockMoveDuration;
         public float BlockDestroyDuration;
+
     }
 }
