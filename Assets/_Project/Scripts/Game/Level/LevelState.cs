@@ -1,4 +1,6 @@
-namespace MergeCubes.Config
+using MergeCubes.Config;
+
+namespace MergeCubes.Game.Level
 {
     public readonly struct LevelState
     {

@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using JetBrains.Annotations;
 using MergeCubes.Config;
 
-namespace MergeCubes.Game
+namespace MergeCubes.Game.Level
 {
     [UsedImplicitly]
     public class LevelRepository

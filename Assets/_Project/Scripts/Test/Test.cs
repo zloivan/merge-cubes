@@ -1,9 +1,10 @@
 using MergeCubes.Core.Grid;
-using MergeCubes.Game;
+using MergeCubes.Game.Level;
+using MergeCubes.Utilities;
 using UnityEngine;
 using VContainer;
 
-namespace MergeCubes
+namespace MergeCubes.Test
 {
     public class Test : MonoBehaviour
     {
