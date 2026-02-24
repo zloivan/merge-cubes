@@ -17,7 +17,7 @@ namespace MergeCubes.Core.Grid
 
         private void Awake()
         {
-            _gridSystem = new GridSystemSquare<GridObject>(
+            _gridSystem = new GridSystemVertical<GridObject>(
                 _width,
                 _height,
                 (_, pos) => new GridObject(pos),
@@ -59,6 +59,8 @@ namespace MergeCubes.Core.Grid
         public bool IsSlotEmpty(GridPosition gridPos) =>
             _gridSystem.GetGridObject(gridPos).Get() == null;
 
+        public List<GridPosition> GetNeighbors(GridPosition target) =>
+            _gridSystem.GetNeighbors(target);
         
     }
 }

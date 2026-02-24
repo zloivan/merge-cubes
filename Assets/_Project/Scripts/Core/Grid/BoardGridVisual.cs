@@ -50,6 +50,11 @@ namespace MergeCubes.Core.Grid
             // _inputController.OnDragEnd -= InputController_OnDragEnd;
         }
 
+        private void Update()
+        {
+            InputController_OnDrag(this, PointerToWorld.GetPointerPositionInWorld());
+        }
+
         private void InputController_OnDragEnd(object sender, EventArgs e)
         {
             if (_boardGrid.IsValidGridPosition(_selectedGridPosition))
