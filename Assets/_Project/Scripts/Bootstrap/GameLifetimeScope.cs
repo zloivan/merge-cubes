@@ -1,11 +1,12 @@
 using MergeCubes.Config;
 using MergeCubes.Game.Board;
 using MergeCubes.Game.Level;
+using MergeCubes.Utilities;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace MergeCubes.Game.Bootstrapp
+namespace MergeCubes.Bootstrap
 {
     public class GameLifetimeScope : LifetimeScope
     {
@@ -15,7 +16,7 @@ namespace MergeCubes.Game.Bootstrapp
         {
             builder.RegisterComponent(_gameConfigSO).As<GameConfigSO>();
             builder.Register<LevelRepository>(Lifetime.Singleton);
-            
+            builder.RegisterComponentInHierarchy<CameraFitter>();
             builder.RegisterComponentInHierarchy<Test.Test>();
             builder.Register<NormalizationController>(Lifetime.Singleton);
             builder.Register<BoardModel>(Lifetime.Singleton);
