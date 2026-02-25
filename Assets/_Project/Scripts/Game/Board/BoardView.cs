@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Config;
 using MergeCubes.Core.Grid;
 using MergeCubes.Events;
-using MergeCubes.Game.Board;
+using MergeCubes.Game.Blocks;
 using UnityEngine;
 using VContainer;
-using IKhom.EventBusSystem.Runtime;
 
-namespace MergeCubes.Game.Blocks
+namespace MergeCubes.Game.Board
 {
     /// <summary>
     /// Presentation layer for the board. Manages BlockView lifecycle. Maps GridPosition ↔ world position. Signals animation completion to NormalizationController.
