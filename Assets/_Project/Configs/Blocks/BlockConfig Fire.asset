@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2c7faeb6064292be366a82f72a3823, type: 3}
   m_Name: BlockConfig Fire
   m_EditorClassIdentifier: 
-  BlockType: 0
-  Sprite: {fileID: 0}
-  IdleClip: {fileID: 7400000, guid: 590aa6ff3421848b3b3b91556794a325, type: 2}
-  DestroyClip: {fileID: 7400000, guid: 5df5ee06c622d4800b681db7f73e1f3d, type: 2}
+  BlockType: 1
+  Sprite: {fileID: 21300000, guid: 2573037e079e944ebb7b9568f3ba609b, type: 3}
+  IdleClip: {fileID: 7400000, guid: 5dfe35a5a892345218e394d57199be2d, type: 2}
+  DestroyClip: {fileID: 7400000, guid: 9269cdfbd88cc43f4b4334472a21c95f, type: 2}
   DestroySound:
     Clip: {fileID: 0}
     MixerGroup: {fileID: 0}

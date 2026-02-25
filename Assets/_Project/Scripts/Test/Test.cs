@@ -1,15 +1,21 @@
-using MergeCubes.Core.Grid;
+using Cysharp.Threading.Tasks;
+using MergeCubes.Config;
+using MergeCubes.Game.Blocks;
 using MergeCubes.Game.Level;
-using MergeCubes.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace MergeCubes.Test
 {
     public class Test : MonoBehaviour
     {
-        [SerializeField] private BoardGrid _boardGrid;
         private LevelRepository _repository;
+        [SerializeField] private BlockView watterBlockView;
+        [SerializeField] private BlockView fireBlockView;
+        [FormerlySerializedAs("_blockConfigSO")] [SerializeField] private BlockConfigSO _watterConfig;
+        [FormerlySerializedAs("_blockConfigSO1")] [SerializeField] private BlockConfigSO _fireConfig;
+        [SerializeField] private GameConfigSO _gameConfigSO;
         
         [Inject]
         public void Construct(LevelRepository repository)
@@ -19,14 +25,20 @@ namespace MergeCubes.Test
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log(_boardGrid.GetGridPosition(PointerToWorld.GetPointerPositionInWorld()));
+                watterBlockView.Initialize(_watterConfig);
+                fireBlockView.Initialize(_fireConfig);
             }
-
-            if (Input.GetKeyDown(KeyCode.I))
+            
+            if (Input.GetKeyDown(KeyCode.W))
             {
-                Debug.Log(_repository);
+                watterBlockView.SelfDestroyAnimatedAsync(_gameConfigSO.BlockDestroyDuration).Forget();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                fireBlockView.SelfDestroyAnimatedAsync(_gameConfigSO.BlockDestroyDuration).Forget();
             }
         }
     }

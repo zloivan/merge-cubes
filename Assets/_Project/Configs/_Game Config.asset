@@ -24,9 +24,11 @@ MonoBehaviour:
   CameraVerticalPadding: 0
   CameraHorizontalPadding: 0
   BlockFallDuration: 30
-  BlockMoveDuration: 50
-  BlockDestroyDuration: 0
+  BlockSwapDuration: 0.4
+  BlockDestroyDuration: 1.5
   BlockLayer:
     serializedVersion: 2
     m_Bits: 64
   MinSwipeDistance: 50
+  BlockSwapEase: 0
+  BlockFallEase: 0
