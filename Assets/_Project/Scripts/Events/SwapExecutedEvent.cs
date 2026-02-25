@@ -5,13 +5,13 @@ namespace MergeCubes.Events
 {
     public readonly struct SwapExecutedEvent : IEvent
     {
-        public readonly GridPosition From;
-        public readonly GridPosition To;
+        public readonly GridPosition A;
+        public readonly GridPosition B;
 
-        public SwapExecutedEvent(GridPosition from, GridPosition to)
+        public SwapExecutedEvent(GridPosition a, GridPosition b)
         {
-            From = from;
-            To = to;
+            A = a;
+            B = b;
         }
     }
 }

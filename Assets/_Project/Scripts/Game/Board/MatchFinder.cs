@@ -16,6 +16,8 @@ namespace MergeCubes.Game.Board
             // For each region: check if it contains ≥1 horizontal run of 3+ cells OR ≥1 vertical run of 3+ cells in the same column
             // If qualifies → add full region to result (not just the line — the entire connected area)
             // All qualifying regions collected before any destruction
+            //https://www.geeksforgeeks.org/dsa/flood-fill-algorithm/
+            //https://en.wikipedia.org/wiki/Depth-first_search
             
             var result = new List<HashSet<GridPosition>>();
             var visited = new HashSet<GridPosition>();

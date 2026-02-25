@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using DG.Tweening;
+using MergeCubes.Game.Blocks;
 using UnityEngine;
 
 namespace MergeCubes.Config
@@ -12,9 +16,14 @@ namespace MergeCubes.Config
         public float CameraVerticalPadding;
         public float CameraHorizontalPadding;
         public float BlockFallDuration;
-        public float BlockMoveDuration;
+        public float BlockSwapDuration;
         public float BlockDestroyDuration;
         public LayerMask BlockLayer;
         public float MinSwipeDistance;
+        public Ease BlockSwapEase;
+        public Ease BlockFallEase;
+
+        public BlockConfigSO GetBlockConfig(BlockType blockType) =>
+            Array.Find(BlockConfigs, c => c.BlockType == blockType);
     }
 }
