@@ -1,4 +1,4 @@
-namespace MergeCubes.Config
+namespace MergeCubes.Game.Blocks
 {
     public enum BlockType
     {

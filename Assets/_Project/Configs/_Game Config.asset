@@ -26,3 +26,7 @@ MonoBehaviour:
   BlockFallDuration: 30
   BlockMoveDuration: 50
   BlockDestroyDuration: 0
+  BlockLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  MinSwipeDistance: 50

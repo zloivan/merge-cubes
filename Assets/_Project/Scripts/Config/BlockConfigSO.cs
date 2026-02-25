@@ -1,4 +1,5 @@
 using IKhom.SoundSystem.Runtime.data;
+using MergeCubes.Game.Blocks;
 using UnityEngine;
 
 namespace MergeCubes.Config

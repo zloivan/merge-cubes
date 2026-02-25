@@ -1,4 +1,5 @@
 using System;
+using MergeCubes.Game.Blocks;
 using UnityEngine;
 
 namespace MergeCubes.Config

@@ -1,5 +1,6 @@
 using MergeCubes.Config;
 using MergeCubes.Core.Grid;
+using MergeCubes.Game.Blocks;
 using MergeCubes.Game.Level;
 
 namespace MergeCubes.Game.Board
