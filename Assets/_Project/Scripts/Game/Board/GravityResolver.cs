@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 
 namespace MergeCubes.Game.Board
 {
+    [UsedImplicitly]
     public class GravityResolver
     {
         public List<DropMove> Resolve(BoardModel model)

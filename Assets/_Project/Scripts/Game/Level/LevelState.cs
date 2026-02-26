@@ -1,4 +1,3 @@
-using MergeCubes.Config;
 using MergeCubes.Game.Blocks;
 
 namespace MergeCubes.Game.Level

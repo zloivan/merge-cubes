@@ -1,16 +1,10 @@
 using System;
+using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 
 namespace MergeCubes.Game.Board
 {
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-    }
-
+    [UsedImplicitly]
     public class SwipeValidator
     {
         public bool Validate(GridPosition from, Direction direction, BoardModel model)

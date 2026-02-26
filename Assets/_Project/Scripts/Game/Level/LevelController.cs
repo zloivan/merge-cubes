@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using IKhom.EventBusSystem.Runtime;
+using JetBrains.Annotations;
 using MergeCubes.Config;
 using MergeCubes.Events;
 using MergeCubes.Game.Board;
@@ -13,11 +14,11 @@ namespace MergeCubes.Bootstrap
     /// <summary>
     /// Manages level lifecycle: load, win detection, advance. Coordinates with SaveService and LevelRepository.
     /// </summary>
+    [UsedImplicitly]
     public class LevelController : IInitializable, IDisposable
     {
         private readonly BoardModel _boardModel;
-        private readonly LevelRepository _levelRepository;
-        private readonly SaveService _saveService;
+        private readonly ILevelRepository _levelRepository;
         private readonly GameConfigSO _gameConfig;
 
         private int _currentLevelIndex;
@@ -26,11 +27,11 @@ namespace MergeCubes.Bootstrap
         private EventBinding<NextLevelRequestedEvent> _onNextLevelRequested;
 
 
-        public LevelController(BoardModel boardModel, LevelRepository levelRepository, SaveService saveService, GameConfigSO gameConfig)
+        public LevelController(BoardModel boardModel, ILevelRepository levelRepository,
+            GameConfigSO gameConfig)
         {
             _boardModel = boardModel;
             _levelRepository = levelRepository;
-            _saveService = saveService;
             _gameConfig = gameConfig;
         }
 
@@ -62,8 +63,15 @@ namespace MergeCubes.Bootstrap
             EventBus<LevelLoadedEvent>.Raise(new LevelLoadedEvent(levelState, levelIndex));
         }
 
-        public void LoadFromSave(SaveData save)
+        public void LoadFromSave(SaveData saveData)
         {
+            var blocks = SaveDataConverter.ToBlockGrid(saveData);
+            var levelState = new LevelState(saveData.Width, saveData.Height, blocks, saveData.LevelIndex);
+
+            _currentLevelIndex = saveData.LevelIndex;
+            _boardModel.Initialize(levelState);
+
+            EventBus<LevelLoadedEvent>.Raise(new LevelLoadedEvent(levelState, _currentLevelIndex));
         }
 
         private void HandleNextLevelRequested(NextLevelRequestedEvent _) =>
@@ -73,7 +81,7 @@ namespace MergeCubes.Bootstrap
         {
             if (_boardModel.IsAllEmpty())
                 EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
-            
+
             await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.WinDelay));
             LoadLevel(_levelRepository.GetNextIndex(_currentLevelIndex));
         }

@@ -5,7 +5,7 @@ using MergeCubes.Game.Blocks;
 namespace MergeCubes.Game.Level
 {
     [UsedImplicitly]
-    public class LevelRepository
+    public class LevelRepository : ILevelRepository
     {
         private readonly GameConfigSO _gameConfig;
 

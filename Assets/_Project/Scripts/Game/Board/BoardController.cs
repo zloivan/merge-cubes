@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using IKhom.EventBusSystem.Runtime;
+using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 using MergeCubes.Events;
 using VContainer.Unity;
@@ -10,6 +11,7 @@ namespace MergeCubes.Game.Board
     /// <summary>
     /// Application layer. Wires SwipeInputEvent → validation → model mutation → normalization trigger. Blocks input during normalization.
     /// </summary>
+    [UsedImplicitly]
     public class BoardController : IInitializable, IDisposable
     {
         private readonly SwipeValidator _swipeValidator;

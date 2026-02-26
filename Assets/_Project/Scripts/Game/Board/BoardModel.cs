@@ -1,10 +1,11 @@
-using MergeCubes.Config;
+using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 using MergeCubes.Game.Blocks;
 using MergeCubes.Game.Level;
 
 namespace MergeCubes.Game.Board
 {
+    [UsedImplicitly]
     public class BoardModel
     {
         private BlockType[,] _gridArray;

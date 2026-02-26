@@ -13,7 +13,7 @@ namespace MergeCubes.Test
 {
     public class Test : MonoBehaviour
     {
-        private LevelRepository _repository;
+        private ILevelRepository _repository;
         [SerializeField] private BlockView watterBlockView;
         [SerializeField] private BlockView fireBlockView;
         [FormerlySerializedAs("_blockConfigSO")] [SerializeField] private BlockConfigSO _watterConfig;
@@ -35,7 +35,7 @@ namespace MergeCubes.Test
         }
 
         [Inject]
-        public void Construct(LevelRepository repository)
+        public void Construct(ILevelRepository repository)
         {
             _repository = repository;
         }

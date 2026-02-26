@@ -37,11 +37,11 @@ namespace MergeCubes.Bootstrap
             builder.Register<GravityResolver>(Lifetime.Singleton);
             builder.Register<MatchFinder>(Lifetime.Singleton);
 
-            builder.Register<LevelRepository>(Lifetime.Singleton);
+            builder.Register<LevelRepository>(Lifetime.Singleton).As<ILevelRepository>();
             builder.Register<NormalizationController>(Lifetime.Singleton);
             builder.Register<LevelController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<BoardController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<SaveService>(Lifetime.Singleton);
+            builder.Register<SaveService>(Lifetime.Singleton).As<ISaveService>();
 
             builder.RegisterComponent(_inputService);
             builder.RegisterComponent(_boardView);
