@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: BalloonConfig
   m_EditorClassIdentifier: 
   BalloonSprites:
-  - {fileID: 2747690628134850419, guid: 5eb61a7c75f4843f6a5884dcc2a7ab9f, type: 3}
-  - {fileID: -5177388603050735206, guid: ed3764e9e16f0461589f5304f6be668c, type: 3}
-  - {fileID: -2135585597343286014, guid: 279e342828bf948d79fd0bdf9ca16070, type: 3}
-  SpeedMin: 20
-  SpeedMax: 60
-  AmplitudeMin: 0
-  AmplitudeMax: 0
-  FrequencyMin: 2
-  FrequencyMax: 4
-  MaxCount: 20
+  - {fileID: 21300000, guid: c3581321eeffa49e4b6ae4b8a5ee079e, type: 3}
+  - {fileID: 21300000, guid: a3b9f6f0c68534235a55197a9123a9e1, type: 3}
+  SpeedMin: 0.7
+  SpeedMax: 1.5
+  BottomMargin: 11
+  AmplitudeMin: 0.3
+  AmplitudeMax: 0.8
+  FrequencyMin: 0.8
+  FrequencyMax: 1.8
+  MaxCount: 3

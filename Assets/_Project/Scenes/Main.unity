@@ -525,6 +525,52 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &348040867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 348040868}
+  - component: {fileID: 348040869}
+  m_Layer: 0
+  m_Name: BalloonsSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &348040868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348040867}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1244265554}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &348040869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348040867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cded71cf5948acb0f77318b614c72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _balloonPrefab: {fileID: 7929706895356881144, guid: 945575fb6f6444a53babc76f2beb4b79,
+    type: 3}
 --- !u!1 &348415204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,6 +1375,7 @@ Transform:
   m_Children:
   - {fileID: 359231160}
   - {fileID: 1906929264}
+  - {fileID: 348040868}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1294524792
@@ -1499,10 +1546,15 @@ MonoBehaviour:
   parentReference:
     TypeName: 
   autoRun: 1
-  autoInjectGameObjects:
-  - {fileID: 359231158}
-  - {fileID: 0}
-  _gameConfigSO: {fileID: 11400000, guid: 9de615d328134406bb5c7f22901a9ed0, type: 2}
+  autoInjectGameObjects: []
+  _gameConfig: {fileID: 11400000, guid: 9de615d328134406bb5c7f22901a9ed0, type: 2}
+  _inputService: {fileID: 359231159}
+  _boardView: {fileID: 1906929263}
+  _cameraFitter: {fileID: 2028675467}
+  _balloonSpawner: {fileID: 348040869}
+  _hudController: {fileID: 1937253477}
+  _virtualCamera: {fileID: 1243652198}
+  _mainCamera: {fileID: 330585545}
 --- !u!1 &1785526299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,7 +1677,7 @@ GameObject:
   - component: {fileID: 1937253476}
   - component: {fileID: 1937253477}
   m_Layer: 0
-  m_Name: GameplayHUD
+  m_Name: HUDController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

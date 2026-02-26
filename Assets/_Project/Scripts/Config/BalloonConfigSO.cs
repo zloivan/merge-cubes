@@ -8,6 +8,7 @@ namespace MergeCubes.Config
         public Sprite[] BalloonSprites;
         public float SpeedMin;
         public float SpeedMax;
+        public float BottomMargin;
         public float AmplitudeMin;
         public float AmplitudeMax;
         public float FrequencyMin;
