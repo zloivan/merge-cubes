@@ -44,10 +44,7 @@ namespace MergeCubes.Game.Board
         {
             if (!_blockViewContainer)
                 _blockViewContainer = transform;
-        }
-
-        private void Start()
-        {
+            
             _onLevelLoaded = new EventBinding<LevelLoadedEvent>(HandleLevelLoaded);
             EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
 
@@ -75,6 +72,19 @@ namespace MergeCubes.Game.Board
                 _boardModel.GetWidth(), _boardModel.GetHeight(), (_, _) => null, _gameConfig.CellSize);
 
             SpawnAllBlocks();
+            
+            CenterGrid();
+        }
+
+        private void CenterGrid()
+        {
+            var gridWorldWidth  = _boardModel.GetWidth()  * _gameConfig.CellSize;
+            var gridWorldHeight = _boardModel.GetHeight() * _gameConfig.CellSize;
+            
+            _blockViewContainer.localPosition = new Vector3(
+                -(gridWorldWidth  - _gameConfig.CellSize) / 2f,
+                -(gridWorldHeight - _gameConfig.CellSize) / 2f,
+                0f);
         }
 
         private void SpawnAllBlocks()
@@ -105,7 +115,7 @@ namespace MergeCubes.Game.Board
             var blockView = Instantiate(_blockViewPrefab, worldPos, Quaternion.identity, _blockViewContainer);
 
             var blockConfig = _gameConfig.GetBlockConfig(_boardModel.GetBlockType(pos));
-            blockView.Initialize(blockConfig);
+            blockView.Initialize(blockConfig, _boardModel.GetWidth());
             blockView.SetGridPosition(pos);
 
             _viewsByGridPos[pos] = blockView;

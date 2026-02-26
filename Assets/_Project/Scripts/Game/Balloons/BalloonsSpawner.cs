@@ -1,4 +1,3 @@
-using System;
 using MergeCubes.Config;
 using UnityEngine;
 using VContainer;
@@ -6,6 +5,12 @@ using Random = UnityEngine.Random;
 
 namespace MergeCubes.Game.Balloons
 {
+    //TODO:
+    //Right now balloons are constructed from as ingle config by random,
+    //but assets have different size. So blue is smaller it means that it should go behind the orange one
+    //and probably move slower. This might be a good idea to cunfigure each type of balloon
+    //by individual config. So that in config we could have 2 different types with individual settings
+    
     public class BalloonsSpawner : MonoBehaviour
     {
         private BalloonConfigSO _balloonConfig;

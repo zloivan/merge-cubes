@@ -15,11 +15,7 @@ namespace MergeCubes.Game.Board
         {
             _width = levelState.Width;
             _height = levelState.Height;
-            _gridArray = new BlockType[_width, _height];
-
-            for (var x = 0; x < _width; x++)
-            for (var y = 0; y < _height; y++)
-                _gridArray[x, y] = levelState.Blocks[x, y];
+            _gridArray = levelState.Blocks;
         }
 
         public int GetWidth() =>

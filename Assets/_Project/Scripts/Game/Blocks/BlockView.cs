@@ -18,6 +18,7 @@ namespace MergeCubes.Game.Blocks
 
 
         private GridPosition _gridPosition;
+        private int _boardWidth;
 
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
@@ -33,10 +34,10 @@ namespace MergeCubes.Game.Blocks
         private void OnDestroy() =>
             transform.DOKill();
 
-        public void Initialize(BlockConfigSO blockConfig)
+        public void Initialize(BlockConfigSO blockConfig, int boardWidth)
         {
             _spriteRenderer.sprite = blockConfig.Sprite;
-
+            _boardWidth = boardWidth;
             var animatorOverrides = new AnimatorOverrideController(_animator.runtimeAnimatorController);
             animatorOverrides[IDLE_ANIMATION_KEY] = blockConfig.IdleClip;
             animatorOverrides[DESTROY_ANIMATION_KEY] = blockConfig.DestroyClip;
@@ -49,8 +50,11 @@ namespace MergeCubes.Game.Blocks
         public GridPosition GetGridPosition() =>
             _gridPosition;
 
-        public void SetGridPosition(GridPosition gridPosition) =>
+        public void SetGridPosition(GridPosition gridPosition)
+        {
             _gridPosition = gridPosition;
+            _spriteRenderer.sortingOrder = gridPosition.Z * _boardWidth + gridPosition.X;
+        }
 
         public async UniTask MoveToAsync(Vector3 position, float duration,
             Ease ease) =>

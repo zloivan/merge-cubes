@@ -15,21 +15,11 @@ namespace MergeCubes.Game.Level
         public LevelState GetLevelByIndex(int levelIndex)
         {
             var levelData = _gameConfig.Levels[levelIndex];
+            var blocks = new BlockType[levelData.Width, levelData.Height];
 
-            var blocks = new BlockType[levelData.Height, levelData.Width];
-
-            //TODO: Тут собираются ячейки грида, если будут проблемы с порядком то сюда!
-            var initial = levelData.InitialBlocks;
-            for (var i = 0; i < levelData.Height; i++)
-            {
-                for (var j = 0; j < levelData.Width; j++)
-                {
-                    var flatIndex = i * levelData.Width + j;
-                    blocks[i, j] = initial != null && flatIndex < initial.Length
-                        ? initial[flatIndex]
-                        : default;
-                }
-            }
+            for (var x = 0; x < levelData.Width; x++)
+            for (var y = 0; y < levelData.Height; y++)
+                blocks[x, y] = levelData.InitialBlocks[y * levelData.Width + x];
 
             return new LevelState(levelData.Width, levelData.Height, blocks, levelIndex);
         }

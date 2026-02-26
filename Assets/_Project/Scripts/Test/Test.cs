@@ -45,8 +45,8 @@ namespace MergeCubes.Test
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                watterBlockView.Initialize(_watterConfig);
-                fireBlockView.Initialize(_fireConfig);
+                watterBlockView.Initialize(_watterConfig, 3);
+                fireBlockView.Initialize(_fireConfig, 3);
             }
             
             if (Input.GetKeyDown(KeyCode.W))
