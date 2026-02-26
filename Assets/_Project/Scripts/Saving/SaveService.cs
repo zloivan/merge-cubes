@@ -1,4 +1,6 @@
 using System.IO;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -10,7 +12,7 @@ namespace MergeCubes.Saving
     {
         private const string SAVE_KEY = "SaveData.json";
 
-
+        private CancellationTokenSource _cts;
         public SaveData Load()
         {
             try
@@ -42,9 +44,18 @@ namespace MergeCubes.Saving
             }
         }
 
-        public void Save(SaveData saveData)
+        public async UniTask SaveAsync(SaveData saveData)
         {
-            File.WriteAllText(GetPath(), JsonUtility.ToJson(saveData));
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            var json = JsonUtility.ToJson(saveData);
+            
+            await UniTask.RunOnThreadPool(
+                () => File.WriteAllText(GetPath(), json),
+                configureAwait: false,
+                cancellationToken: token);
         }
 
         public void Delete()

@@ -19,6 +19,7 @@ namespace MergeCubes.Bootstrap
 
 
         private EventBinding<RestartRequestedEvent> _onRestartRequested;
+        private EventBinding<NormalizationCompletedEvent> _onNormalizationCompleted;
 
         [Inject]
         public void Construct(LevelController levelController, ISaveService saveService,
@@ -33,8 +34,10 @@ namespace MergeCubes.Bootstrap
         private void Start()
         {
             _onRestartRequested = new EventBinding<RestartRequestedEvent>(HandleRestartRequested);
-
             EventBus<RestartRequestedEvent>.Register(_onRestartRequested);
+
+             _onNormalizationCompleted = new EventBinding<NormalizationCompletedEvent>(HandleNormalizationCompleted);
+             EventBus<NormalizationCompletedEvent>.Register(_onNormalizationCompleted);
 
             // TODO:
             // Architecture note — GameFlowController
@@ -49,12 +52,16 @@ namespace MergeCubes.Bootstrap
             Bootstrap();
         }
 
+        private void HandleNormalizationCompleted(NormalizationCompletedEvent obj) =>
+            Save();
+
         private void OnDestroy() =>
             EventBus<RestartRequestedEvent>.Deregister(_onRestartRequested);
 
         private void HandleRestartRequested(RestartRequestedEvent e)
         {
             _normalizationController.Cancel();
+            _saveService.Delete();
             _levelController.LoadLevel(_levelController.GetCurrentLevelIndex());
         }
 
@@ -78,6 +85,6 @@ namespace MergeCubes.Bootstrap
             Save();
 
         private void Save() =>
-            _saveService.Save(SaveDataConverter.FromBoard(_boardModel, _levelController.GetCurrentLevelIndex()));
+            _saveService.SaveAsync(SaveDataConverter.FromBoard(_boardModel, _levelController.GetCurrentLevelIndex()));
     }
 }
