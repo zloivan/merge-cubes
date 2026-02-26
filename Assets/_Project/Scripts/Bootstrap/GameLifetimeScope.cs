@@ -4,6 +4,7 @@ using MergeCubes.Game.Balloons;
 using MergeCubes.Game.Board;
 using MergeCubes.Game.Level;
 using MergeCubes.GameInput;
+using MergeCubes.Saving;
 using MergeCubes.Utilities;
 using UnityEngine;
 using VContainer;
@@ -37,7 +38,9 @@ namespace MergeCubes.Bootstrap
 
             builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<NormalizationController>(Lifetime.Singleton);
+            builder.Register<LevelController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<BoardController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<SaveService>(Lifetime.Singleton);
 
             builder.RegisterComponent(_inputService);
             builder.RegisterComponent(_boardView);
