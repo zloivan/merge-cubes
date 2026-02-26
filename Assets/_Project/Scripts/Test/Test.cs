@@ -1,5 +1,8 @@
+using System;
 using Cysharp.Threading.Tasks;
+using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Config;
+using MergeCubes.Events;
 using MergeCubes.Game.Blocks;
 using MergeCubes.Game.Level;
 using UnityEngine;
@@ -16,7 +19,21 @@ namespace MergeCubes.Test
         [FormerlySerializedAs("_blockConfigSO")] [SerializeField] private BlockConfigSO _watterConfig;
         [FormerlySerializedAs("_blockConfigSO1")] [SerializeField] private BlockConfigSO _fireConfig;
         [SerializeField] private GameConfigSO _gameConfigSO;
-        
+
+
+        private void Awake()
+        {
+            EventBus<RestartRequestedEvent>.Register(new EventBinding<RestartRequestedEvent>(() =>
+            {
+                Debug.Log("Restart Requested");
+            }));
+            
+            EventBus<NextLevelRequestedEvent>.Register(new EventBinding<NextLevelRequestedEvent>(() =>
+            {
+                Debug.Log("Next level Requested");
+            }));
+        }
+
         [Inject]
         public void Construct(LevelRepository repository)
         {
@@ -40,6 +57,21 @@ namespace MergeCubes.Test
             {
                 fireBlockView.SelfDestroyAnimatedAsync(_gameConfigSO.BlockDestroyDuration).Forget();
             }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                EventBus<LevelLoadedEvent>.Raise(new LevelLoadedEvent());
+            }
+        }
+
+        [ContextMenu("Trigget Level Complete")]
+        private void TriggerLevelWon()
+        {
+            EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
         }
     }
 }
