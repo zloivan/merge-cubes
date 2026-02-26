@@ -13,19 +13,21 @@ namespace MergeCubes.Bootstrap
     public class GameController : MonoBehaviour
     {
         private LevelController _levelController;
-        private SaveService _saveService;
+        private ISaveService _saveService;
         private NormalizationController _normalizationController;
+        private BoardModel _boardModel;
 
 
         private EventBinding<RestartRequestedEvent> _onRestartRequested;
 
         [Inject]
-        public void Construct(LevelController levelController, SaveService saveService,
-            NormalizationController normalizationController)
+        public void Construct(LevelController levelController, ISaveService saveService,
+            NormalizationController normalizationController, BoardModel boardModel)
         {
             _levelController = levelController;
             _saveService = saveService;
             _normalizationController = normalizationController;
+            _boardModel = boardModel;
         }
 
         private void Start()
@@ -76,6 +78,6 @@ namespace MergeCubes.Bootstrap
             Save();
 
         private void Save() =>
-            _saveService.Save();
+            _saveService.Save(SaveDataConverter.FromBoard(_boardModel, _levelController.GetCurrentLevelIndex()));
     }
 }
