@@ -32,3 +32,4 @@ MonoBehaviour:
   MinSwipeDistance: 50
   BlockSwapEase: 0
   BlockFallEase: 0
+  WinDelay: 5

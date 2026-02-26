@@ -77,5 +77,8 @@ namespace MergeCubes.Bootstrap
             await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.WinDelay));
             LoadLevel(_levelRepository.GetNextIndex(_currentLevelIndex));
         }
+
+        public int GetCurrentLevelIndex() =>
+            _currentLevelIndex;
     }
 }

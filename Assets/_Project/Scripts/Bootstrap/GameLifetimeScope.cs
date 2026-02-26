@@ -22,7 +22,8 @@ namespace MergeCubes.Bootstrap
         [SerializeField] private CameraFitter _cameraFitter;
         [SerializeField] private BalloonsSpawner _balloonSpawner;
         [SerializeField] private HUDController _hudController;
-
+        [SerializeField] private GameController _gameController;
+        
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         [SerializeField] private Camera _mainCamera;
 
@@ -47,6 +48,7 @@ namespace MergeCubes.Bootstrap
             builder.RegisterComponent(_cameraFitter);
             builder.RegisterComponent(_balloonSpawner);
             builder.RegisterComponent(_hudController);
+            builder.RegisterComponent(_gameController);
         }
     }
 }
