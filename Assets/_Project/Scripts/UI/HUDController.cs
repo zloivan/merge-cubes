@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace MergeCubes.UI
 {
-    public class GameplayHUD : MonoBehaviour
+    public class HUDController : MonoBehaviour
     {
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _nextButton;
