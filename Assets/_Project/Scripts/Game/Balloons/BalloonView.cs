@@ -1,4 +1,5 @@
 using System;
+using MergeCubes.Editor;
 using UnityEngine;
 
 namespace MergeCubes.Game.Balloons
@@ -22,7 +23,8 @@ namespace MergeCubes.Game.Balloons
         private void Awake() =>
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
-        public void Initialize(Sprite sprite,
+        public void Initialize(
+            BalloonTypeConfigSO type,
             float direction,
             float speed,
             float amplitude,
@@ -32,16 +34,18 @@ namespace MergeCubes.Game.Balloons
             float spriteHalfW,
             Action<BalloonView> onBalloonExited)
         {
-            _spriteRenderer.sprite = sprite;
-            _direction = direction;
-            _speed = speed;
-            _amplitude = amplitude;
-            _frequency = frequency;
-            _baseY = baseY;
-            _halfW = halfW;
+            _spriteRenderer.sprite       = type.Sprite;
+            _spriteRenderer.sortingOrder = type.SortingOrder;
+
+            _direction   = direction;
+            _speed       = speed;
+            _amplitude   = amplitude;
+            _frequency   = frequency;
+            _baseY       = baseY;
+            _halfW       = halfW;
             _spriteHalfW = spriteHalfW;
-            _onExited = onBalloonExited;
-            _time = 0f;
+            _onExited    = onBalloonExited;
+            _time        = 0f;
         }
 
         private void Update()

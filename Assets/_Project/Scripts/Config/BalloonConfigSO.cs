@@ -1,3 +1,4 @@
+using MergeCubes.Editor;
 using UnityEngine;
 
 namespace MergeCubes.Config
@@ -5,14 +6,8 @@ namespace MergeCubes.Config
     [CreateAssetMenu(fileName = "New BalloonConfig", menuName = "MergeCubes/Balloon Config", order = 0)]
     public class BalloonConfigSO : ScriptableObject
     {
-        public Sprite[] BalloonSprites;
-        public float SpeedMin;
-        public float SpeedMax;
+        public BalloonTypeConfigSO[] Types;
         public float BottomMargin;
-        public float AmplitudeMin;
-        public float AmplitudeMax;
-        public float FrequencyMin;
-        public float FrequencyMax;
         public int MaxCount;
     }
 }

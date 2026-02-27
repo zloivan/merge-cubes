@@ -47,10 +47,11 @@ namespace MergeCubes.Game.Balloons
             //distance to right border of screen from center
             var halfW = halfH * ((float)Screen.width / Screen.height);
 
-            var amplitude = Random.Range(_balloonConfig.AmplitudeMin, _balloonConfig.AmplitudeMax);
-            var frequency = Random.Range(_balloonConfig.FrequencyMin, _balloonConfig.FrequencyMax);
-            var speed = Random.Range(_balloonConfig.SpeedMin, _balloonConfig.SpeedMax);
-            var sprite = _balloonConfig.BalloonSprites[Random.Range(0, _balloonConfig.BalloonSprites.Length)];
+            var type = _balloonConfig.Types[Random.Range(0, _balloonConfig.Types.Length)];
+
+            var amplitude = Random.Range(type.AmplitudeMin, type.AmplitudeMax);
+            var frequency = Random.Range(type.FrequencyMin, type.FrequencyMax);
+            var speed     = Random.Range(type.SpeedMin, type.SpeedMax);
 
             //add margin to top position based on balloon size, so that it didn't go out of top screen
             var verticalMargin = _spriteHalfH + amplitude;
@@ -69,8 +70,7 @@ namespace MergeCubes.Game.Balloons
                 Quaternion.identity,
                 transform);
 
-            balloon.Initialize(sprite, direction, speed, amplitude, frequency, baseY, halfW, _spriteHalfW,
-                OnBalloonExited);
+            balloon.Initialize(type, direction, speed, amplitude, frequency, baseY, halfW, _spriteHalfW, OnBalloonExited);
         }
 
         private void OnBalloonExited(BalloonView balloon)
