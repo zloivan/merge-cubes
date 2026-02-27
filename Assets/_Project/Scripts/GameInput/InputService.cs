@@ -122,7 +122,7 @@ namespace MergeCubes.GameInput
                 return delta.x > 0 ? Direction.Right : Direction.Left;
             }
 
-            return delta.y > 0 ? Direction.Down : Direction.Up;
+            return delta.y > 0 ? Direction.Up : Direction.Down;
         }
 
 #if UNITY_EDITOR

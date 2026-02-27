@@ -43,8 +43,8 @@ namespace MergeCubes.Game.Board
             {
                 while (true)
                 {
-                    var dropped = await TryApplyGravityAsync(token);
                     var matched = await TryApplyMatchesAsync(token);
+                    var dropped = await TryApplyGravityAsync(token);
 
                     if (!dropped && !matched)
                         break;
@@ -63,7 +63,7 @@ namespace MergeCubes.Game.Board
 
         public void Cancel()
         {
-            _cts.Cancel();
+            _cts?.Cancel();
             _cts = null;
             _isNormalizing = false;
         }

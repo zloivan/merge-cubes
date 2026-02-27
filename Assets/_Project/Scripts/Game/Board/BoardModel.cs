@@ -32,7 +32,7 @@ namespace MergeCubes.Game.Board
             _gridArray[pos.X, pos.Z] == BlockType.None;
 
         public bool IsInBounds(GridPosition pos) =>
-            pos.X > 0 && pos.X < _width && pos.Z > 0 && pos.Z < _height;
+            pos.X >= 0 && pos.X < _width && pos.Z >= 0 && pos.Z < _height;
 
         public bool IsAllEmpty()
         {

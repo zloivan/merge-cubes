@@ -51,9 +51,10 @@ namespace MergeCubes.Saving
             var token = _cts.Token;
 
             var json = JsonUtility.ToJson(saveData);
+            var path = GetPath();
             
             await UniTask.RunOnThreadPool(
-                () => File.WriteAllText(GetPath(), json),
+                () => File.WriteAllText(path, json),
                 configureAwait: false,
                 cancellationToken: token);
         }

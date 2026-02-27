@@ -18,7 +18,7 @@ namespace MergeCubes.Game.Board
             // All qualifying regions collected before any destruction
             //https://www.geeksforgeeks.org/dsa/flood-fill-algorithm/
             //https://en.wikipedia.org/wiki/Depth-first_search
-            
+
             var result = new List<HashSet<GridPosition>>();
             var visited = new HashSet<GridPosition>();
 
@@ -94,13 +94,11 @@ namespace MergeCubes.Game.Board
             var run = 1;
 
 
-            for (var i = 0; i < sorted.Count; i++)
+            for (var i = 1; i < sorted.Count; i++)
             {
                 run = sorted[i] == sorted[i - 1] + 1 ? run + 1 : 1;
                 if (run > max)
-                {
-                    run = max;
-                }
+                    max = run;
             }
 
             return max;

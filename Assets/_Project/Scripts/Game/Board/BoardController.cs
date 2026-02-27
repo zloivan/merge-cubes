@@ -4,6 +4,7 @@ using IKhom.EventBusSystem.Runtime;
 using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 using MergeCubes.Events;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace MergeCubes.Game.Board
@@ -38,19 +39,20 @@ namespace MergeCubes.Game.Board
         public void Dispose() =>
             EventBus<SwipeInputEvent>.Deregister(_swipeBinding);
 
-        private void OnSwipe(SwipeInputEvent eventArts)
+        private void OnSwipe(SwipeInputEvent e)
         {
             if (_normalizationController.GetIsNormalizing())
                 return;
 
-            if (_swipeValidator.Validate(eventArts.From, eventArts.Dir, _boardModel))
+            if (!_swipeValidator.Validate(e.From, e.Dir, _boardModel))
                 return;
 
-            ApplyMove(eventArts.From, eventArts.Dir);
+            ApplyMove(e.From, e.Dir);
+            
 
-            EventBus<SwapExecutedEvent>.Raise(new SwapExecutedEvent(eventArts.From,
-                eventArts.From + eventArts.Dir.ToOffset()));
-
+            EventBus<SwapExecutedEvent>.Raise(new SwapExecutedEvent(e.From,
+                e.From + e.Dir.ToOffset()));
+            
             _normalizationController.RunCycleAsync().Forget();
         }
 
