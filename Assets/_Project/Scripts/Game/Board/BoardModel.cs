@@ -16,7 +16,7 @@ namespace MergeCubes.Game.Board
         {
             _width = levelState.Width;
             _height = levelState.Height;
-            _gridArray = levelState.Blocks;
+            _gridArray = (BlockType[,])levelState.Blocks.Clone();
         }
 
         public int GetWidth() =>

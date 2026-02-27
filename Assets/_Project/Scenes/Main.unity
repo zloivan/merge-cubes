@@ -1896,7 +1896,7 @@ MonoBehaviour:
   _hudController: {fileID: 1937253477}
   _gameController: {fileID: 1882275094}
   _virtualCamera: {fileID: 1243652198}
-  _shakeControlle: {fileID: 861101905}
+  _shakeController: {fileID: 861101905}
   _mainCamera: {fileID: 330585545}
   _soundManager: {fileID: 301189010}
   _gameSoundController: {fileID: 1232744780}

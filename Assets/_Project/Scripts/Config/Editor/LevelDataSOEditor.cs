@@ -50,12 +50,7 @@ namespace MergeCubes.Editor
                     var index = row * so.Width + col;
                     var current = so.InitialBlocks[index];
 
-                    GUI.backgroundColor = current switch
-                    {
-                        BlockType.Fire => FireColor,
-                        BlockType.Water => WaterColor,
-                        _ => NoneColor
-                    };
+                    GUI.backgroundColor = GetBlockColor(current);
 
                     if (GUILayout.Button(current.ToString(), cellSize))
                     {
@@ -70,15 +65,27 @@ namespace MergeCubes.Editor
             }
         }
 
-        private static BlockType CycleType(BlockType current) =>
-            current switch
-            {
-                BlockType.None => BlockType.Fire,
-                BlockType.Fire => BlockType.Water,
-                BlockType.Water => BlockType.None,
-                _ => BlockType.None
-            };
+        private static BlockType CycleType(BlockType current)
+        {
+            var values = (BlockType[])System.Enum.GetValues(typeof(BlockType));
+            var nextIndex = (System.Array.IndexOf(values, current) + 1) % values.Length;
+            return values[nextIndex];
+        }
 
+        private static Color GetBlockColor(BlockType type) => type switch
+        {
+            BlockType.None  => NoneColor,
+            BlockType.Fire  => FireColor,
+            BlockType.Water => WaterColor,
+            _               => ColorFromHash(type.ToString())
+        };
+        
+        private static Color ColorFromHash(string name)
+        {
+            var h = (float)(name.GetHashCode() & 0x7FFFFFFF) / int.MaxValue;
+            return Color.HSVToRGB(h, 0.6f, 0.9f);
+        }
+        
         private static void ResizeGrid(LevelDataSO so, int newWidth, int newHeight)
         {
             var newBlocks = new BlockType[newWidth * newHeight];

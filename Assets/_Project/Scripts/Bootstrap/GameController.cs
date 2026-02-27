@@ -43,7 +43,6 @@ namespace MergeCubes.Bootstrap
 
         private void Start()
         {
-            // TODO:
             // Architecture note — GameFlowController
             // Current flow coordination lives in GameController + LevelController which creates
             // coupling between win detection, save timing, and level transitions.

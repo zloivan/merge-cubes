@@ -59,6 +59,7 @@ namespace MergeCubes.Game.Board
             finally
             {
                 _isNormalizing = false;
+                _cts?.Dispose();
                 _cts = null;
             }
 
@@ -69,6 +70,7 @@ namespace MergeCubes.Game.Board
         public void Cancel()
         {
             _cts?.Cancel();
+            _cts?.Dispose();
             _cts = null;
             _isNormalizing = false;
         }

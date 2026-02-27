@@ -27,7 +27,7 @@ namespace MergeCubes.Bootstrap
         [SerializeField] private GameController _gameController;
         
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-        [SerializeField] private CameraShakeController _shakeControlle;
+        [SerializeField] private CameraShakeController _shakeController;
         [SerializeField] private Camera _mainCamera;
         [SerializeField] private SoundManager _soundManager;
         [SerializeField] private GameSoundController _gameSoundController;
@@ -52,7 +52,7 @@ namespace MergeCubes.Bootstrap
 
             
             builder.RegisterComponent(_inputService);
-            builder.RegisterComponent(_shakeControlle);
+            builder.RegisterComponent(_shakeController);
             builder.RegisterComponent(_boardView);
             builder.RegisterComponent(_cameraFitter);
             builder.RegisterComponent(_balloonSpawner);
