@@ -135,7 +135,7 @@ namespace MergeCubes.Game.Board
             if (!_viewsByGridPos.TryGetValue(e.A, out var a)
                 || !_viewsByGridPos.TryGetValue(e.B, out var b))
             {
-                Debug.Log("No Views spawned for the swap");
+                Debug.LogWarning("No Views spawned for the swap");
                 return;
             }
 
