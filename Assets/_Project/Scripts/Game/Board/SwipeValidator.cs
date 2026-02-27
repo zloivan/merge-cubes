@@ -13,9 +13,9 @@ namespace MergeCubes.Game.Board
             // Upward swipe to occupied cell returns true
             // Out-of-bounds target returns false in all directions
             // Swipe from empty cell returns false
-            
+
             var to = from + direction.ToOffset();
-            
+
             if (model.IsEmpty(from))
                 return false;
 
@@ -39,7 +39,7 @@ namespace MergeCubes.Game.Board
                 Direction.Down => new GridPosition(0, -1),
                 Direction.Left => new GridPosition(-1, 0),
                 Direction.Right => new GridPosition(1, 0),
-                _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null),
             };
         }
     }

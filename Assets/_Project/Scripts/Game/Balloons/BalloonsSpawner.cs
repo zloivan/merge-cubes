@@ -5,29 +5,15 @@ using Random = UnityEngine.Random;
 
 namespace MergeCubes.Game.Balloons
 {
-    //TODO:
-    //Right now balloons are constructed from as ingle config by random,
-    //but assets have different size. So blue is smaller it means that it should go behind the orange one
-    //and probably move slower. This might be a good idea to cunfigure each type of balloon
-    //by individual config. So that in config we could have 2 different types with individual settings
-    
     public class BalloonsSpawner : MonoBehaviour
     {
-        private BalloonConfigSO _balloonConfig;
-        private Camera _camera;
-
         [SerializeField] private BalloonView _balloonPrefab;
 
         private int _activeCount;
+        private BalloonConfigSO _balloonConfig;
+        private Camera _camera;
         private float _spriteHalfH;
         private float _spriteHalfW;
-
-        [Inject]
-        public void Construct(GameConfigSO balloonConfig, Camera cam)
-        {
-            _balloonConfig = balloonConfig.BalloonConfig;
-            _camera = cam;
-        }
 
         private void Start()
         {
@@ -38,6 +24,13 @@ namespace MergeCubes.Game.Balloons
 
             for (var i = 0; i < _balloonConfig.MaxCount; i++)
                 SpawnBalloon();
+        }
+
+        [Inject]
+        public void Construct(GameConfigSO balloonConfig, Camera cam)
+        {
+            _balloonConfig = balloonConfig.BalloonConfig;
+            _camera = cam;
         }
 
         private void SpawnBalloon()
@@ -51,12 +44,12 @@ namespace MergeCubes.Game.Balloons
 
             var amplitude = Random.Range(type.AmplitudeMin, type.AmplitudeMax);
             var frequency = Random.Range(type.FrequencyMin, type.FrequencyMax);
-            var speed     = Random.Range(type.SpeedMin, type.SpeedMax);
+            var speed = Random.Range(type.SpeedMin, type.SpeedMax);
 
             //add margin to top position based on balloon size, so that it didn't go out of top screen
             var verticalMargin = _spriteHalfH + amplitude;
             var baseY = Random.Range(
-                -halfH + verticalMargin + _balloonConfig.BottomMargin,  
+                -halfH + verticalMargin + _balloonConfig.BottomMargin,
                 halfH - verticalMargin);
 
             var fromLeft = Random.value > 0.5f;
@@ -70,7 +63,8 @@ namespace MergeCubes.Game.Balloons
                 Quaternion.identity,
                 transform);
 
-            balloon.Initialize(type, direction, speed, amplitude, frequency, baseY, halfW, _spriteHalfW, OnBalloonExited);
+            balloon.Initialize(type, direction, speed, amplitude, frequency, baseY, halfW, _spriteHalfW,
+                OnBalloonExited);
         }
 
         private void OnBalloonExited(BalloonView balloon)

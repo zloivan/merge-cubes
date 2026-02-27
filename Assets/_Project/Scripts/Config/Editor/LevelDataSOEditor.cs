@@ -1,3 +1,4 @@
+using System;
 using MergeCubes.Config;
 using MergeCubes.Game.Blocks;
 using UnityEditor;
@@ -8,9 +9,9 @@ namespace MergeCubes._Project.Scripts.Config.Editor
     [CustomEditor(typeof(LevelDataSO))]
     public class LevelDataSOEditor : UnityEditor.Editor
     {
-        private static readonly Color FireColor = new Color(1f, 0.45f, 0.1f);
-        private static readonly Color WaterColor = new Color(0.2f, 0.6f, 1f);
-        private static readonly Color NoneColor = new Color(0.2f, 0.2f, 0.2f);
+        private static readonly Color FireColor = new(1f, 0.45f, 0.1f);
+        private static readonly Color WaterColor = new(0.2f, 0.6f, 1f);
+        private static readonly Color NoneColor = new(0.2f, 0.2f, 0.2f);
 
         public override void OnInspectorGUI()
         {
@@ -67,25 +68,26 @@ namespace MergeCubes._Project.Scripts.Config.Editor
 
         private static BlockType CycleType(BlockType current)
         {
-            var values = (BlockType[])System.Enum.GetValues(typeof(BlockType));
-            var nextIndex = (System.Array.IndexOf(values, current) + 1) % values.Length;
+            var values = (BlockType[])Enum.GetValues(typeof(BlockType));
+            var nextIndex = (Array.IndexOf(values, current) + 1) % values.Length;
             return values[nextIndex];
         }
 
-        private static Color GetBlockColor(BlockType type) => type switch
-        {
-            BlockType.None  => NoneColor,
-            BlockType.Fire  => FireColor,
-            BlockType.Water => WaterColor,
-            _               => ColorFromHash(type.ToString())
-        };
-        
+        private static Color GetBlockColor(BlockType type) =>
+            type switch
+            {
+                BlockType.None => NoneColor,
+                BlockType.Fire => FireColor,
+                BlockType.Water => WaterColor,
+                _ => ColorFromHash(type.ToString()),
+            };
+
         private static Color ColorFromHash(string name)
         {
             var h = (float)(name.GetHashCode() & 0x7FFFFFFF) / int.MaxValue;
             return Color.HSVToRGB(h, 0.6f, 0.9f);
         }
-        
+
         private static void ResizeGrid(LevelDataSO so, int newWidth, int newHeight)
         {
             var newBlocks = new BlockType[newWidth * newHeight];

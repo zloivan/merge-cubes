@@ -4,7 +4,6 @@ using MergeCubes.Game.Board;
 
 namespace MergeCubes.Events
 {
-    
     public readonly struct SwipeInputEvent : IEvent
     {
         public readonly GridPosition From;

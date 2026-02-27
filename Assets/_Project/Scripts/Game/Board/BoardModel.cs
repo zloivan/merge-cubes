@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 using MergeCubes.Game.Blocks;
@@ -9,8 +10,8 @@ namespace MergeCubes.Game.Board
     public class BoardModel
     {
         private BlockType[,] _gridArray;
-        private int _width;
         private int _height;
+        private int _width;
 
         public void Initialize(LevelState levelState)
         {
@@ -37,12 +38,8 @@ namespace MergeCubes.Game.Board
         public bool IsAllEmpty()
         {
             foreach (var blockType in _gridArray)
-            {
                 if (blockType != BlockType.None)
-                {
                     return false;
-                }
-            }
 
             return true;
         }
@@ -62,7 +59,7 @@ namespace MergeCubes.Game.Board
         public BlockType[,] GetSnapshot()
         {
             var copy = new BlockType[_width, _height];
-            System.Array.Copy(_gridArray, copy, _gridArray.Length);
+            Array.Copy(_gridArray, copy, _gridArray.Length);
             return copy;
         }
     }

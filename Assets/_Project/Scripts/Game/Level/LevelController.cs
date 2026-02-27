@@ -12,21 +12,21 @@ using VContainer.Unity;
 namespace MergeCubes.Game.Level
 {
     /// <summary>
-    /// Manages level lifecycle: load, win detection, advance. Coordinates with SaveService and LevelRepository.
+    ///     Manages level lifecycle: load, win detection, advance. Coordinates with SaveService and LevelRepository.
     /// </summary>
     [UsedImplicitly]
     public class LevelController : IInitializable, IDisposable
     {
         private readonly BoardModel _boardModel;
-        private readonly ILevelRepository _levelRepository;
         private readonly GameConfigSO _gameConfig;
+        private readonly ILevelRepository _levelRepository;
+        private CancellationTokenSource _cts;
 
         private int _currentLevelIndex;
+        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
+        private EventBinding<NextLevelRequestedEvent> _onNextLevelRequested;
 
         private EventBinding<NormalizationCompletedEvent> _onNormalizationCompleted;
-        private EventBinding<NextLevelRequestedEvent> _onNextLevelRequested;
-        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
-        private CancellationTokenSource _cts;
 
         public LevelController(BoardModel boardModel, ILevelRepository levelRepository,
             GameConfigSO gameConfig)
@@ -34,6 +34,16 @@ namespace MergeCubes.Game.Level
             _boardModel = boardModel;
             _levelRepository = levelRepository;
             _gameConfig = gameConfig;
+        }
+
+        public void Dispose()
+        {
+            EventBus<NormalizationCompletedEvent>.Deregister(_onNormalizationCompleted);
+            EventBus<NextLevelRequestedEvent>.Deregister(_onNextLevelRequested);
+            EventBus<LevelLoadedEvent>.Deregister(_onLevelLoaded);
+
+            _cts?.Cancel();
+            _cts = null;
         }
 
         public void Initialize()
@@ -45,16 +55,6 @@ namespace MergeCubes.Game.Level
             EventBus<NormalizationCompletedEvent>.Register(_onNormalizationCompleted);
             EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
             EventBus<NextLevelRequestedEvent>.Register(_onNextLevelRequested);
-        }
-
-        public void Dispose()
-        {
-            EventBus<NormalizationCompletedEvent>.Deregister(_onNormalizationCompleted);
-            EventBus<NextLevelRequestedEvent>.Deregister(_onNextLevelRequested);
-            EventBus<LevelLoadedEvent>.Deregister(_onLevelLoaded);
-            
-            _cts?.Cancel();
-            _cts = null;
         }
 
         private void HandleLevelLoaded(LevelLoadedEvent obj)

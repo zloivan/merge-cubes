@@ -7,19 +7,17 @@ namespace MergeCubes.Core.Grid
     public class GridSystemVertical<T> : GridSystemBase<T>
     {
         private readonly Vector3 _origin;
-        
+
         public GridSystemVertical(int width, int height, Func<GridSystemBase<T>, GridPosition, T> factory,
             float cellSize = 1f, Vector3 origin = default) : base(width, height, cellSize)
         {
             _origin = origin;
-            
+
             for (var x = 0; x < GetWidth(); x++)
+            for (var y = 0; y < GetHeight(); y++)
             {
-                for (var y = 0; y < GetHeight(); y++)
-                {
-                    var gridPosition = new GridPosition(x, y);
-                    _gridObjects[x, y] = factory(this, gridPosition);
-                }
+                var gridPosition = new GridPosition(x, y);
+                _gridObjects[x, y] = factory(this, gridPosition);
             }
         }
 

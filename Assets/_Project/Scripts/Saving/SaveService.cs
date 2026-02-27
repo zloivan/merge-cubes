@@ -7,12 +7,12 @@ using UnityEngine;
 namespace MergeCubes.Saving
 {
     [UsedImplicitly]
-    
     public class SaveService : ISaveService
     {
         private const string SAVE_KEY = "SaveData.json";
 
         private CancellationTokenSource _cts;
+
         public SaveData Load()
         {
             try
@@ -52,11 +52,11 @@ namespace MergeCubes.Saving
 
             var json = JsonUtility.ToJson(saveData);
             var path = GetPath();
-            
+
             await UniTask.RunOnThreadPool(
                 () => File.WriteAllText(path, json),
-                configureAwait: false,
-                cancellationToken: token);
+                false,
+                token);
         }
 
         public void Delete()

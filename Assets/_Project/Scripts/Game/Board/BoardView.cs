@@ -13,35 +13,27 @@ using VContainer;
 namespace MergeCubes.Game.Board
 {
     /// <summary>
-    /// Presentation layer for the board. Manages BlockView lifecycle. Maps GridPosition ↔ world position. Signals animation completion to NormalizationController.
+    ///     Presentation layer for the board. Manages BlockView lifecycle. Maps GridPosition ↔ world position. Signals
+    ///     animation completion to NormalizationController.
     /// </summary>
     public class BoardView : MonoBehaviour
     {
         [SerializeField] private Transform _blockViewContainer;
         [SerializeField] private BlockView _blockViewPrefab;
         [SerializeField] private Transform _gridAnchor;
-        
+
         private readonly Dictionary<GridPosition, BlockView> _viewsByGridPos = new();
         private BoardModel _boardModel;
-        private NormalizationController _normalizationController;
         private GameConfigSO _gameConfig;
         private GridSystemVertical<GridObject> _gridSystem;
-        
+        private NormalizationController _normalizationController;
+        private EventBinding<BlockMovedEvent> _onBlockMoved;
+        private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
+        private EventBinding<BlocksFellEvent> _onBlocksFell;
+
 
         private EventBinding<LevelLoadedEvent> _onLevelLoaded;
         private EventBinding<SwapExecutedEvent> _onSwapExecuted;
-        private EventBinding<BlocksFellEvent> _onBlocksFell;
-        private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
-        private EventBinding<BlockMovedEvent> _onBlockMoved;
-
-        [Inject]
-        public void Construct(BoardModel boardModel, NormalizationController normalizationController,
-            GameConfigSO gameConfig)
-        {
-            _boardModel = boardModel;
-            _normalizationController = normalizationController;
-            _gameConfig = gameConfig;
-        }
 
         private void Awake()
         {
@@ -59,7 +51,7 @@ namespace MergeCubes.Game.Board
 
             _onBlocksDestroyed = new EventBinding<BlocksDestroyedEvent>(HandleBlocksDestroyed);
             EventBus<BlocksDestroyedEvent>.Register(_onBlocksDestroyed);
-            
+
             _onBlockMoved = new EventBinding<BlockMovedEvent>(HandleBlockMoved);
             EventBus<BlockMovedEvent>.Register(_onBlockMoved);
         }
@@ -71,6 +63,15 @@ namespace MergeCubes.Game.Board
             EventBus<BlocksFellEvent>.Deregister(_onBlocksFell);
             EventBus<BlocksDestroyedEvent>.Deregister(_onBlocksDestroyed);
             EventBus<BlockMovedEvent>.Deregister(_onBlockMoved);
+        }
+
+        [Inject]
+        public void Construct(BoardModel boardModel, NormalizationController normalizationController,
+            GameConfigSO gameConfig)
+        {
+            _boardModel = boardModel;
+            _normalizationController = normalizationController;
+            _gameConfig = gameConfig;
         }
 
         private void HandleLevelLoaded(LevelLoadedEvent eventArgs)
@@ -102,17 +103,12 @@ namespace MergeCubes.Game.Board
             _viewsByGridPos.Clear();
 
             for (var x = 0; x < _boardModel.GetWidth(); x++)
+            for (var y = 0; y < _boardModel.GetHeight(); y++)
             {
-                for (var y = 0; y < _boardModel.GetHeight(); y++)
-                {
-                    var pos = new GridPosition(x, y);
-                    if (_boardModel.IsEmpty(pos))
-                    {
-                        continue;
-                    }
+                var pos = new GridPosition(x, y);
+                if (_boardModel.IsEmpty(pos)) continue;
 
-                    SpawnBlock(pos);
-                }
+                SpawnBlock(pos);
             }
         }
 
@@ -155,7 +151,7 @@ namespace MergeCubes.Game.Board
             b.SetGridPosition(e.A);
             a.SetGridPosition(e.B);
         }
-        
+
         private void HandleBlockMoved(BlockMovedEvent e)
         {
             if (!_viewsByGridPos.Remove(e.From, out var view))

@@ -16,24 +16,30 @@ namespace MergeCubes.Core.Grid
         }
 
         public override string ToString() =>
-            $"{_gridPosition}\n" + string.Join("\n", _unitList.Select(e=>e.ToString()));
+            $"{_gridPosition}\n" + string.Join("\n", _unitList.Select(e => e.ToString()));
 
-        public void Add(GameObject unit) => _unitList.Add(unit);
+        public void Add(GameObject unit) =>
+            _unitList.Add(unit);
 
-        public List<GameObject> GetList() => _unitList;
+        public List<GameObject> GetList() =>
+            _unitList;
 
         public void Remove(GameObject unit)
         {
-            if (!_unitList.Contains(unit)) 
+            if (!_unitList.Contains(unit))
                 return;
-            
+
             _unitList.Remove(unit);
         }
-        
-        public void ClearObjectList() => _unitList.Clear();
-        public bool HasAny() => _unitList.Count > 0;
 
-        public GameObject Get() => HasAny() ? _unitList[0] : null;
+        public void ClearObjectList() =>
+            _unitList.Clear();
+
+        public bool HasAny() =>
+            _unitList.Count > 0;
+
+        public GameObject Get() =>
+            HasAny() ? _unitList[0] : null;
 
         public void Set(GameObject unit)
         {

@@ -11,9 +11,9 @@ namespace MergeCubes.UI
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _nextButton;
         [SerializeField] private CanvasGroup _nextButtonCG;
+        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
 
         private EventBinding<LevelWonEvent> _onLevelWon;
-        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
 
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace MergeCubes.UI
 
         private void Start()
         {
-            SetNextVisible(false, instant: true);
+            SetNextVisible(false, true);
         }
 
         private void OnDestroy()
@@ -41,7 +41,7 @@ namespace MergeCubes.UI
         }
 
         private void HandleLevelLoaded(LevelLoadedEvent obj) =>
-            SetNextVisible(false, instant: true);
+            SetNextVisible(false, true);
 
         private void HandleLevelWon(LevelWonEvent obj) =>
             SetNextVisible(true);
@@ -65,9 +65,7 @@ namespace MergeCubes.UI
             if (instant)
                 _nextButtonCG.alpha = targetAlpha;
             else
-            {
                 _nextButtonCG.DOFade(targetAlpha, .4f).SetEase(Ease.OutBack);
-            }
         }
     }
 }

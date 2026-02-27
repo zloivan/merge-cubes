@@ -24,23 +24,15 @@ namespace MergeCubes.Game.Board
 
 
             for (var x = 0; x < board.GetWidth(); x++)
+            for (var y = 0; y < board.GetHeight(); y++)
             {
-                for (var y = 0; y < board.GetHeight(); y++)
-                {
-                    var pos = new GridPosition(x, y);
+                var pos = new GridPosition(x, y);
 
-                    if (visited.Contains(pos) || board.IsEmpty(pos))
-                    {
-                        continue;
-                    }
+                if (visited.Contains(pos) || board.IsEmpty(pos)) continue;
 
-                    var region = FloodFill(pos, board, visited);
+                var region = FloodFill(pos, board, visited);
 
-                    if (HasQualifingLine(region))
-                    {
-                        result.Add(region);
-                    }
-                }
+                if (HasQualifingLine(region)) result.Add(region);
             }
 
 
@@ -65,9 +57,7 @@ namespace MergeCubes.Game.Board
                 {
                     var next = cur + direction.ToOffset();
                     if (board.IsInBounds(next) && !visited.Contains(next) && board.GetBlockType(next) == type)
-                    {
                         Enqueue(next);
-                    }
                 }
             }
 

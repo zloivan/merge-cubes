@@ -9,18 +9,19 @@ using MergeCubes.Events;
 namespace MergeCubes.Game.Board
 {
     /// <summary>
-    /// Application layer. Runs gravity→match loop until board is stable. Owns IsNormalizing flag. Coordinates with views via async UniTask awaiting.
+    ///     Application layer. Runs gravity→match loop until board is stable. Owns IsNormalizing flag. Coordinates with views
+    ///     via async UniTask awaiting.
     /// </summary>
     public class NormalizationController
     {
         private readonly BoardModel _boardModel;
+        private readonly GameConfigSO _gameConfig;
         private readonly GravityResolver _gravityResolver;
         private readonly MatchFinder _matchFinder;
-        private readonly GameConfigSO _gameConfig;
+        private CancellationTokenSource _cts;
+        private UniTaskCompletionSource _destroyCompleted;
 
         private UniTaskCompletionSource _fallCompleted;
-        private UniTaskCompletionSource _destroyCompleted;
-        private CancellationTokenSource _cts;
 
 
         private bool _isNormalizing;
@@ -91,10 +92,7 @@ namespace MergeCubes.Game.Board
             if (regions.Count == 0)
                 return false;
 
-            foreach (var pos in regions.SelectMany(region => region))
-            {
-                _boardModel.Remove(pos);
-            }
+            foreach (var pos in regions.SelectMany(region => region)) _boardModel.Remove(pos);
 
             _destroyCompleted = new UniTaskCompletionSource();
             await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.BlockDestroyDelay), cancellationToken: token);
@@ -111,10 +109,7 @@ namespace MergeCubes.Game.Board
             if (drops.Count == 0)
                 return false;
 
-            foreach (var dropMove in drops)
-            {
-                _boardModel.Move(dropMove.From, dropMove.To);
-            }
+            foreach (var dropMove in drops) _boardModel.Move(dropMove.From, dropMove.To);
 
             _fallCompleted = new UniTaskCompletionSource();
             await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.BlockFallDelay), cancellationToken: token);

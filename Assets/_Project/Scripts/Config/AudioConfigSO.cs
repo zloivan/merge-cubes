@@ -8,9 +8,10 @@ namespace MergeCubes.Config
     {
         [Header("Background")]
         public SoundData BackgroundMusic;
-        
+
         [Header("Block")]
         public SoundData[] SwapSounds;
+
         public SoundData[] MoveSounds;
         public SoundData[] FallSounds;
         public SoundData[] DestroySounds;

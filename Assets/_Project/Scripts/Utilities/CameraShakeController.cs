@@ -16,10 +16,6 @@ namespace MergeCubes.Utilities
         private GameConfigSO _gameConfig;
         private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
 
-        [Inject]
-        public void Construct(GameConfigSO gameConfig) =>
-            _gameConfig = gameConfig;
-
         private void Awake()
         {
             _onBlocksDestroyed = new EventBinding<BlocksDestroyedEvent>(HandleBlocksDestroyed);
@@ -28,6 +24,10 @@ namespace MergeCubes.Utilities
 
         private void OnDestroy() =>
             EventBus<BlocksDestroyedEvent>.Deregister(_onBlocksDestroyed);
+
+        [Inject]
+        public void Construct(GameConfigSO gameConfig) =>
+            _gameConfig = gameConfig;
 
         private void HandleBlocksDestroyed(BlocksDestroyedEvent _) =>
             ShakeDelayedAsync().Forget();

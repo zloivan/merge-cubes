@@ -24,7 +24,7 @@ namespace MergeCubes.Saving
                 Width = width,
                 Height = height,
                 Blocks = blocks,
-                SaveVersion = CURRENT_VERSION
+                SaveVersion = CURRENT_VERSION,
             };
         }
 

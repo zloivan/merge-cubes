@@ -18,7 +18,7 @@ namespace MergeCubes.Game.Level
             var blocks = new BlockType[levelData.Width, levelData.Height];
 
             for (var row = 0; row < levelData.Height; row++)
-            for (var col = 0; col < levelData.Width;  col++)
+            for (var col = 0; col < levelData.Width; col++)
                 blocks[col, row] = levelData.InitialBlocks[row * levelData.Width + col];
 
             return new LevelState(levelData.Width, levelData.Height, blocks, levelIndex);

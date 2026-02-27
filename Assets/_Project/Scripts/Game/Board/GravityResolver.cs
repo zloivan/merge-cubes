@@ -37,10 +37,7 @@ namespace MergeCubes.Game.Board
                 if (board.IsEmpty(pos))
                     continue;
 
-                if (row != writeRow)
-                {
-                    drops.Add(new DropMove(pos, new GridPosition(col, writeRow)));
-                }
+                if (row != writeRow) drops.Add(new DropMove(pos, new GridPosition(col, writeRow)));
 
                 writeRow++;
             }

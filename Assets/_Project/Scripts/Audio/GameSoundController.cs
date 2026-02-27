@@ -10,23 +10,15 @@ namespace MergeCubes.Audio
 {
     public class GameSoundController : MonoBehaviour
     {
-        private SoundManager _soundManager;
         private AudioConfigSO _audioConfig;
+        private EventBinding<BlockMovedEvent> _onBlockMoved;
+        private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
+        private EventBinding<BlocksFellEvent> _onBlocksFell;
+        private EventBinding<UIButtonClickedEvent> _onButtonClicked;
+        private EventBinding<LevelWonEvent> _onLevelWon;
 
         private EventBinding<SwapExecutedEvent> _onSwap;
-        private EventBinding<BlockMovedEvent> _onBlockMoved;
-        private EventBinding<BlocksFellEvent> _onBlocksFell;
-        private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
-        private EventBinding<LevelWonEvent> _onLevelWon;
-        private EventBinding<UIButtonClickedEvent> _onButtonClicked;
-
-
-        [Inject]
-        public void Construct(SoundManager soundManager, GameConfigSO gameConfig)
-        {
-            _soundManager = soundManager;
-            _audioConfig = gameConfig.AudioConfig;
-        }
+        private SoundManager _soundManager;
 
         private void Start()
         {
@@ -57,6 +49,14 @@ namespace MergeCubes.Audio
             EventBus<BlocksDestroyedEvent>.Deregister(_onBlocksDestroyed);
             EventBus<LevelWonEvent>.Deregister(_onLevelWon);
             EventBus<UIButtonClickedEvent>.Deregister(_onButtonClicked);
+        }
+
+
+        [Inject]
+        public void Construct(SoundManager soundManager, GameConfigSO gameConfig)
+        {
+            _soundManager = soundManager;
+            _audioConfig = gameConfig.AudioConfig;
         }
 
         private void PlayAmbient() =>

@@ -9,14 +9,15 @@ using VContainer.Unity;
 namespace MergeCubes.Game.Board
 {
     /// <summary>
-    /// Application layer. Wires SwipeInputEvent → validation → model mutation → normalization trigger. Blocks input during normalization.
+    ///     Application layer. Wires SwipeInputEvent → validation → model mutation → normalization trigger. Blocks input during
+    ///     normalization.
     /// </summary>
     [UsedImplicitly]
     public class BoardController : IInitializable, IDisposable
     {
-        private readonly SwipeValidator _swipeValidator;
-        private readonly NormalizationController _normalizationController;
         private readonly BoardModel _boardModel;
+        private readonly NormalizationController _normalizationController;
+        private readonly SwipeValidator _swipeValidator;
 
         private EventBinding<SwipeInputEvent> _swipeBinding;
 
@@ -28,15 +29,15 @@ namespace MergeCubes.Game.Board
             _boardModel = boardModel;
         }
 
+        public void Dispose() =>
+            EventBus<SwipeInputEvent>.Deregister(_swipeBinding);
+
 
         public void Initialize()
         {
             _swipeBinding = new EventBinding<SwipeInputEvent>(OnSwipe);
             EventBus<SwipeInputEvent>.Register(_swipeBinding);
         }
-
-        public void Dispose() =>
-            EventBus<SwipeInputEvent>.Deregister(_swipeBinding);
 
         private void OnSwipe(SwipeInputEvent e)
         {
@@ -48,14 +49,14 @@ namespace MergeCubes.Game.Board
 
             var to = e.From + e.Dir.ToOffset();
             var isEmpty = _boardModel.IsEmpty(to);
-            
+
             ApplyMove(e.From, e.Dir);
 
             if (isEmpty)
                 EventBus<BlockMovedEvent>.Raise(new BlockMovedEvent(e.From, to));
             else
                 EventBus<SwapExecutedEvent>.Raise(new SwapExecutedEvent(e.From, to));
-            
+
             _normalizationController.RunCycleAsync().Forget();
         }
 

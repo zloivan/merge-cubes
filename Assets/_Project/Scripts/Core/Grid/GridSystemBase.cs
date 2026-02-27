@@ -5,10 +5,10 @@ namespace MergeCubes.Core.Grid
 {
     public abstract class GridSystemBase<TGridObject>
     {
-        protected readonly TGridObject[,] _gridObjects;
-        private readonly int _width;
-        private readonly int _height;
         private readonly float _cellSize;
+        protected readonly TGridObject[,] _gridObjects;
+        private readonly int _height;
+        private readonly int _width;
 
         protected GridSystemBase(int width, int height, float cellSize)
         {
@@ -19,7 +19,7 @@ namespace MergeCubes.Core.Grid
         }
 
         public abstract Vector3 GetWorldPosition(GridPosition gridPos);
-        
+
         public abstract GridPosition GetGridPosition(Vector3 worldPosition);
 
         public TGridObject GetGridObject(GridPosition gridPos) =>
@@ -33,7 +33,7 @@ namespace MergeCubes.Core.Grid
 
         public float GetCellSize() =>
             _cellSize;
-        
+
         public virtual bool IsValidGridPosition(GridPosition gridPos) =>
             gridPos.X >= 0
             && gridPos.X < _width
@@ -43,20 +43,17 @@ namespace MergeCubes.Core.Grid
         public void CreateDebugObjects(Transform prefab, Transform parent)
         {
             for (var x = 0; x < _width; x++)
+            for (var z = 0; z < _height; z++)
             {
-                for (var z = 0; z < _height; z++)
-                {
-                    var gridPosition = new GridPosition(x, z);
+                var gridPosition = new GridPosition(x, z);
 
-                    var debugObj = Object.Instantiate(prefab, GetWorldPosition(gridPosition), Quaternion.identity,
-                        parent);
+                var debugObj = Object.Instantiate(prefab, GetWorldPosition(gridPosition), Quaternion.identity,
+                    parent);
 
-                    debugObj.GetComponent<GridDebugObject>().SetGridObject(GetGridObject(gridPosition));
-                }
+                debugObj.GetComponent<GridDebugObject>().SetGridObject(GetGridObject(gridPosition));
             }
         }
 
         public abstract List<GridPosition> GetNeighbors(GridPosition pos);
-        
     }
 }

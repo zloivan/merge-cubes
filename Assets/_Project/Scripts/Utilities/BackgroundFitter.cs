@@ -11,14 +11,10 @@ namespace MergeCubes.Utilities
     {
         [SerializeField] private Transform _background;
         [SerializeField] private float _horizontalMargin = 1.5f; // <-- добавить
-        [SerializeField] private float _verticalMargin = 1.5f;   // 
+        [SerializeField] private float _verticalMargin = 1.5f; // 
         private GameConfigSO _gameConfig;
         private Vector2 _nativeSize;
         private EventBinding<LevelLoadedEvent> _onLevelLoaded;
-
-        [Inject]
-        public void Construct(GameConfigSO gameConfig) =>
-            _gameConfig = gameConfig;
 
         private void Awake()
         {
@@ -33,13 +29,17 @@ namespace MergeCubes.Utilities
         private void OnDestroy() =>
             EventBus<LevelLoadedEvent>.Deregister(_onLevelLoaded);
 
+        [Inject]
+        public void Construct(GameConfigSO gameConfig) =>
+            _gameConfig = gameConfig;
+
         private void OnLevelLoaded(LevelLoadedEvent e)
         {
             var gridWorldWidth = e.Level.Width * _gameConfig.CellSize;
             var gridWorldHeight = e.Level.Height * _gameConfig.CellSize;
 
             // Required background size to fit grid + equal margins on each side
-            var targetWidth  = gridWorldWidth  + 2f * _horizontalMargin;
+            var targetWidth = gridWorldWidth + 2f * _horizontalMargin;
             var targetHeight = gridWorldHeight + 2f * _verticalMargin;
 
             // Proportional scale — take the larger axis so background always covers both

@@ -9,28 +9,18 @@ using VContainer;
 namespace MergeCubes.Bootstrap
 {
     /// <summary>
-    /// App entry point. Bootstraps game on Start. Handles restart. Saves on pause/quit.
+    ///     App entry point. Bootstraps game on Start. Handles restart. Saves on pause/quit.
     /// </summary>
     public class GameController : MonoBehaviour
     {
-        private LevelController _levelController;
-        private ISaveService _saveService;
-        private NormalizationController _normalizationController;
         private BoardModel _boardModel;
+        private LevelController _levelController;
+        private NormalizationController _normalizationController;
+        private EventBinding<NormalizationCompletedEvent> _onNormalizationCompleted;
 
 
         private EventBinding<RestartRequestedEvent> _onRestartRequested;
-        private EventBinding<NormalizationCompletedEvent> _onNormalizationCompleted;
-
-        [Inject]
-        public void Construct(LevelController levelController, ISaveService saveService,
-            NormalizationController normalizationController, BoardModel boardModel)
-        {
-            _levelController = levelController;
-            _saveService = saveService;
-            _normalizationController = normalizationController;
-            _boardModel = boardModel;
-        }
+        private ISaveService _saveService;
 
         private void Awake()
         {
@@ -55,11 +45,30 @@ namespace MergeCubes.Bootstrap
             Bootstrap();
         }
 
-        private void HandleNormalizationCompleted(NormalizationCompletedEvent obj) =>
-            Save();
-
         private void OnDestroy() =>
             EventBus<RestartRequestedEvent>.Deregister(_onRestartRequested);
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+                Save();
+        }
+
+        private void OnApplicationQuit() =>
+            Save();
+
+        [Inject]
+        public void Construct(LevelController levelController, ISaveService saveService,
+            NormalizationController normalizationController, BoardModel boardModel)
+        {
+            _levelController = levelController;
+            _saveService = saveService;
+            _normalizationController = normalizationController;
+            _boardModel = boardModel;
+        }
+
+        private void HandleNormalizationCompleted(NormalizationCompletedEvent obj) =>
+            Save();
 
         private void HandleRestartRequested(RestartRequestedEvent e)
         {
@@ -78,20 +87,11 @@ namespace MergeCubes.Bootstrap
                 _levelController.LoadLevel(0);
         }
 
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus)
-                Save();
-        }
-
-        private void OnApplicationQuit() =>
-            Save();
-
         private void Save()
         {
             if (_boardModel.IsAllEmpty())
                 return;
-            
+
             _saveService.SaveAsync(SaveDataConverter.FromBoard(_boardModel, _levelController.GetCurrentLevelIndex()));
         }
     }

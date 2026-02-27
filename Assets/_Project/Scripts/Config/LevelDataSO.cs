@@ -13,9 +13,7 @@ namespace MergeCubes.Config
         private void OnValidate()
         {
             if (InitialBlocks.Length != Width * Height)
-            {
                 Debug.LogWarning("Not all initial blocks are assigned inside config", this);
-            }
         }
     }
 }

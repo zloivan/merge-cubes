@@ -8,7 +8,7 @@ namespace MergeCubes.Events
 
     {
         public readonly List<DropMove> Drops;
-        
+
         public BlocksFellEvent(List<DropMove> drops) =>
             Drops = drops;
     }

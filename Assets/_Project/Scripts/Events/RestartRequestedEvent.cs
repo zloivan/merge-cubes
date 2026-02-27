@@ -4,6 +4,5 @@ namespace MergeCubes.Events
 {
     public struct RestartRequestedEvent : IEvent
     {
-        
     }
 }

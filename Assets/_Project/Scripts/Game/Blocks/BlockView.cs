@@ -18,13 +18,13 @@ namespace MergeCubes.Game.Blocks
         private const string DESTROY_ANIMATION_KEY = "anim_BlockDestroy";
         private static readonly int DestroyTriggerHash = Animator.StringToHash("Destroy");
 
+        private Animator _animator;
+        private int _boardWidth;
+        private BoxCollider2D _boxCollider2D;
+
 
         private GridPosition _gridPosition;
-        private int _boardWidth;
-
-        private Animator _animator;
         private SpriteRenderer _spriteRenderer;
-        private BoxCollider2D _boxCollider2D;
 
         private void Awake()
         {
@@ -41,13 +41,13 @@ namespace MergeCubes.Game.Blocks
             _spriteRenderer.sprite = blockConfig.Sprite;
             _boardWidth = boardWidth;
             _animator.Play(IDLE_STATE_KEY, 0, Random.Range(0f, 1f));
-            
+
             var animatorOverrides = new AnimatorOverrideController(_animator.runtimeAnimatorController)
             {
                 [IDLE_ANIMATION_KEY] = blockConfig.IdleClip,
                 [DESTROY_ANIMATION_KEY] = blockConfig.DestroyClip,
             };
-            
+
             _animator.runtimeAnimatorController = animatorOverrides;
         }
 
