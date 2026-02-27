@@ -2,6 +2,8 @@
 
 > Открыть сцену: `Assets/_Project/Scenes/Main.unity` → Play
 
+Мобильная match-3 головоломка для Android. Игрок свайпает блоки двух типов (огонь и вода) по сетке, формируя связные области из 3+ одинаковых блоков — они уничтожаются одновременно. Цель — очистить поле. После победы уровень меняется автоматически, уровни зациклены.
+
 ---
 
 ## Что реализовано по ТЗ
@@ -27,22 +29,35 @@
 - **Кастомный Level Editor** — визуальный редактор `LevelDataSO` прямо в инспекторе, cell-grid с цветовой индикацией типов блоков
 - **Save corruption guard** — валидация версии, размеров и длины массива; при любом несоответствии тихий fallback на уровень 1 без краша
 - **Async save** — запись сейва в `UniTask.RunOnThreadPool`, не блокирует main thread
+- **Оптимизация** — Sprite Atlas, Camera Solid Color, отключён bloom; `Application.targetFrameRate = 60` (не греем девайс); 0 GC alloc в Update-путях; итог: 7 draw calls, 8 событий в Frame Debugger на кадр
 
 ---
 
-## Архитектура за 30 секунд
+## Архитектура
 
 ```
-Presentation  →  Application  →  Domain (pure C#)
-                                  BoardModel, MatchFinder,
-                                  GravityResolver, SwipeValidator
-
-Infrastructure: SaveService, LevelRepository, InputService
-Config: ScriptableObjects (GameConfigSO — единая точка настройки)
-DI: VContainer (GameLifetimeScope)
-Events: EventBus<T> (cross-system), прямые вызовы внутри системы
-Async: UniTask | Tweens: DOTween
+┌─────────────────────────────────────────────┐
+│  Presentation (MonoBehaviours / Views)       │
+│  BlockView, BoardView, BalloonSpawner, HUD   │
+├─────────────────────────────────────────────┤
+│  Application (Controllers / UseCases)        │
+│  GameController, BoardController,            │
+│  NormalizationController, LevelController    │
+├─────────────────────────────────────────────┤
+│  Domain (Pure C# — no Unity deps)            │
+│  BoardModel, MatchFinder, GravityResolver,   │
+│  SwipeValidator                              │
+├─────────────────────────────────────────────┤
+│  Infrastructure                              │
+│  SaveService, LevelRepository, InputService  │
+├─────────────────────────────────────────────┤
+│  Config / Data (ScriptableObjects)           │
+│  GameConfigSO, BlockConfigSO, LevelDataSO,   │
+│  BalloonConfigSO                             │
+└─────────────────────────────────────────────┘
 ```
+
+DI: VContainer (`GameLifetimeScope`) | Events: `EventBus<T>` (cross-system) | Async: UniTask | Tweens: DOTween
 
 Все настраиваемые параметры (длительности анимаций, размер ячейки, порог свайпа, camera shake force) — в `GameConfigSO`. Магических чисел в коде нет.
 
@@ -70,5 +85,11 @@ Prefab создавать не нужно — все блоки использу
 
 ## Сборка APK
 
-**File → Build Settings** → Android → IL2CPP → Build  
-Min API 21. При необходимости — `Assets/link.xml`.
+**Unity:** 2022.3.62f1  
+**Platform:** Android, IL2CPP, .NET Standard 2.1, Portrait, Min API 25, Target API Automatic
+
+1. **File → Build Settings** → выбрать Android
+2. **Player Settings** → убедиться: IL2CPP, Portrait locked
+3. **Build** → выбрать папку → готово
+
+При необходимости добавить `Assets/link.xml` если IL2CPP стрипает нужные типы.

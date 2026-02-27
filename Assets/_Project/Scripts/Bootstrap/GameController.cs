@@ -33,6 +33,8 @@ namespace MergeCubes.Bootstrap
 
         private void Start()
         {
+            Application.targetFrameRate = 60;
+            
             // Architecture note — GameFlowController
             // Current flow coordination lives in GameController + LevelController which creates
             // coupling between win detection, save timing, and level transitions.
