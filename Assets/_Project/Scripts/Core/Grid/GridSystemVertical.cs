@@ -6,9 +6,13 @@ namespace MergeCubes.Core.Grid
 {
     public class GridSystemVertical<T> : GridSystemBase<T>
     {
+        private readonly Vector3 _origin;
+        
         public GridSystemVertical(int width, int height, Func<GridSystemBase<T>, GridPosition, T> factory,
-            float cellSize = 1f) : base(width, height, cellSize)
+            float cellSize = 1f, Vector3 origin = default) : base(width, height, cellSize)
         {
+            _origin = origin;
+            
             for (var x = 0; x < GetWidth(); x++)
             {
                 for (var y = 0; y < GetHeight(); y++)
@@ -20,12 +24,12 @@ namespace MergeCubes.Core.Grid
         }
 
         public override Vector3 GetWorldPosition(GridPosition gridPos) =>
-            new Vector3(gridPos.X, gridPos.Z, 0f) * GetCellSize();
+            _origin + new Vector3(gridPos.X, gridPos.Z, 0f) * GetCellSize();
 
         public override GridPosition GetGridPosition(Vector3 worldPosition) =>
             new(
-                Mathf.RoundToInt(worldPosition.x / GetCellSize()),
-                Mathf.RoundToInt(worldPosition.y / GetCellSize())
+                Mathf.RoundToInt((worldPosition.x - _origin.x) / GetCellSize()),
+                Mathf.RoundToInt((worldPosition.y - _origin.y) / GetCellSize())
             );
 
         public override List<GridPosition> GetNeighbors(GridPosition pos) =>

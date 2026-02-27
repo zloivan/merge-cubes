@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Events;
@@ -15,7 +16,7 @@ namespace MergeCubes.UI
         private EventBinding<LevelWonEvent> _onLevelWon;
         private EventBinding<LevelLoadedEvent> _onLevelLoaded;
 
-        private void Start()
+        private void Awake()
         {
             _restartButton.onClick.AddListener(HandleRestartPress);
             _nextButton.onClick.AddListener(HandleNextPress);
@@ -25,7 +26,10 @@ namespace MergeCubes.UI
 
             EventBus<LevelWonEvent>.Register(_onLevelWon);
             EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
+        }
 
+        private void Start()
+        {
             SetNextVisible(false, instant: true);
         }
 

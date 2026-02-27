@@ -44,7 +44,7 @@ namespace MergeCubes.Game.Board
         {
             if (!_blockViewContainer)
                 _blockViewContainer = transform;
-            
+
             _onLevelLoaded = new EventBinding<LevelLoadedEvent>(HandleLevelLoaded);
             EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
 
@@ -69,20 +69,20 @@ namespace MergeCubes.Game.Board
         private void HandleLevelLoaded(LevelLoadedEvent eventArgs)
         {
             _gridSystem = new GridSystemVertical<GridObject>(
-                _boardModel.GetWidth(), _boardModel.GetHeight(), (_, _) => null, _gameConfig.CellSize);
+                _boardModel.GetWidth(), _boardModel.GetHeight(), (_, _) => null, _gameConfig.CellSize, GetGridOrigin());
+
+            _blockViewContainer.localPosition = Vector3.zero;
 
             SpawnAllBlocks();
-            
-            CenterGrid();
         }
 
-        private void CenterGrid()
+        private Vector3 GetGridOrigin()
         {
-            var gridWorldWidth  = _boardModel.GetWidth()  * _gameConfig.CellSize;
+            var gridWorldWidth = _boardModel.GetWidth() * _gameConfig.CellSize;
             var gridWorldHeight = _boardModel.GetHeight() * _gameConfig.CellSize;
-            
-            _blockViewContainer.localPosition = new Vector3(
-                -(gridWorldWidth  - _gameConfig.CellSize) / 2f,
+
+            return new Vector3(
+                -(gridWorldWidth - _gameConfig.CellSize) / 2f,
                 -(gridWorldHeight - _gameConfig.CellSize) / 2f,
                 0f);
         }

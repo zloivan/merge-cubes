@@ -1,3 +1,4 @@
+using System;
 using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Events;
 using MergeCubes.Game.Board;
@@ -31,14 +32,17 @@ namespace MergeCubes.Bootstrap
             _boardModel = boardModel;
         }
 
-        private void Start()
+        private void Awake()
         {
             _onRestartRequested = new EventBinding<RestartRequestedEvent>(HandleRestartRequested);
             EventBus<RestartRequestedEvent>.Register(_onRestartRequested);
 
-             _onNormalizationCompleted = new EventBinding<NormalizationCompletedEvent>(HandleNormalizationCompleted);
-             EventBus<NormalizationCompletedEvent>.Register(_onNormalizationCompleted);
+            _onNormalizationCompleted = new EventBinding<NormalizationCompletedEvent>(HandleNormalizationCompleted);
+            EventBus<NormalizationCompletedEvent>.Register(_onNormalizationCompleted);
+        }
 
+        private void Start()
+        {
             // TODO:
             // Architecture note — GameFlowController
             // Current flow coordination lives in GameController + LevelController which creates
