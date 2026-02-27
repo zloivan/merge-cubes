@@ -1,4 +1,6 @@
 using Cinemachine;
+using IKhom.SoundSystem.Runtime.components;
+using MergeCubes.Audio;
 using MergeCubes.Config;
 using MergeCubes.Game.Balloons;
 using MergeCubes.Game.Board;
@@ -27,6 +29,8 @@ namespace MergeCubes.Bootstrap
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         [SerializeField] private CameraShakeController _shakeControlle;
         [SerializeField] private Camera _mainCamera;
+        [SerializeField] private SoundManager _soundManager;
+        [SerializeField] private GameSoundController _gameSoundController;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -44,6 +48,7 @@ namespace MergeCubes.Bootstrap
             builder.Register<BoardController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<SaveService>(Lifetime.Singleton).As<ISaveService>();
 
+            
             builder.RegisterComponent(_inputService);
             builder.RegisterComponent(_shakeControlle);
             builder.RegisterComponent(_boardView);
@@ -51,6 +56,8 @@ namespace MergeCubes.Bootstrap
             builder.RegisterComponent(_balloonSpawner);
             builder.RegisterComponent(_hudController);
             builder.RegisterComponent(_gameController);
+            builder.RegisterComponent(_soundManager);
+            builder.RegisterComponent(_gameSoundController);
         }
     }
 }

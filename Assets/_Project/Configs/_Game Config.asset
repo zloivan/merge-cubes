@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd67a7db0cb4e09a16d485ccac07608, type: 3}
   m_Name: _Game Config
   m_EditorClassIdentifier: 
+  AudioConfig: {fileID: 11400000, guid: 875f140d23d4a467da3268534c801be5, type: 2}
   BlockConfigs:
   - {fileID: 11400000, guid: e8979c868107f46c187d934ff61ba8e9, type: 2}
   - {fileID: 11400000, guid: 919136905fa274a5faf788aae5908499, type: 2}
@@ -20,6 +21,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 92f26d640d2b0439d938b2e20e691483, type: 2}
   - {fileID: 11400000, guid: f4a46b866faa9451dba21150709ae717, type: 2}
   - {fileID: 11400000, guid: e69df042b08e7407d8dfdb902d6d2d1a, type: 2}
+  - {fileID: 11400000, guid: 999f517725bda4e33ab3a69d7e721786, type: 2}
+  - {fileID: 11400000, guid: 86be5e9d2b8ae4a73be445de20bc7fc3, type: 2}
   CellSize: 2
   CameraVerticalPadding: 0
   CameraHorizontalPadding: 0
@@ -31,10 +34,10 @@ MonoBehaviour:
     m_Bits: 64
   MinSwipeDistance: 100
   BlockSwapEase: 6
-  BlockFallEase: 5
+  BlockFallEase: 30
   WinDelay: 5
   BlockDestroyDelay: 0.1
-  BlockFallDelay: 0.3
+  BlockFallDelay: 0.25
   DestroyStaggerDelay: 0.01
   ShakeForce: 0.2
   ShakeDelay: 0.5

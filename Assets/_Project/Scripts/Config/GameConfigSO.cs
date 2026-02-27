@@ -9,6 +9,7 @@ namespace MergeCubes.Config
     [CreateAssetMenu(fileName = "New Game Config", menuName = "MergeCubes/Game Config", order = 0)]
     public class GameConfigSO : ScriptableObject
     {
+        public AudioConfigSO AudioConfig;
         public BlockConfigSO[] BlockConfigs;
         public BalloonConfigSO BalloonConfig;
         public LevelDataSO[] Levels;

@@ -48,8 +48,8 @@ namespace MergeCubes.Game.Board
             {
                 while (true)
                 {
-                    var matched = await TryApplyMatchesAsync(token);
                     var dropped = await TryApplyGravityAsync(token);
+                    var matched = await TryApplyMatchesAsync(token);
 
                     if (!dropped && !matched)
                         break;
