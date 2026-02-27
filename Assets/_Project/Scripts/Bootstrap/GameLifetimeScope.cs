@@ -31,6 +31,8 @@ namespace MergeCubes.Bootstrap
         [SerializeField] private Camera _mainCamera;
         [SerializeField] private SoundManager _soundManager;
         [SerializeField] private GameSoundController _gameSoundController;
+        [SerializeField] private BackgroundFitter _backgroundFitter;
+        
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -58,6 +60,7 @@ namespace MergeCubes.Bootstrap
             builder.RegisterComponent(_gameController);
             builder.RegisterComponent(_soundManager);
             builder.RegisterComponent(_gameSoundController);
+            builder.RegisterComponent(_backgroundFitter);
         }
     }
 }

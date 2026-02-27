@@ -1,4 +1,8 @@
+using System;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
+using IKhom.EventBusSystem.Runtime;
+using MergeCubes.Events;
 using UnityEngine;
 
 namespace MergeCubes.Utilities
@@ -8,7 +12,18 @@ namespace MergeCubes.Utilities
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         [SerializeField] private SpriteRenderer _background;
 
-        private void Start()
+        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
+
+        private void Awake()
+        {
+            _onLevelLoaded = new EventBinding<LevelLoadedEvent>(OnLevelLoaded);
+            EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
+        }
+
+        private void OnDestroy() =>
+            EventBus<LevelLoadedEvent>.Deregister(_onLevelLoaded);
+
+        private void OnLevelLoaded()
         {
             var bgBounds = _background.bounds;
             var bgHalfHeight = bgBounds.extents.y;
