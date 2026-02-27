@@ -1,4 +1,4 @@
-# Merge Cubes — Test Assignment (OpenMyGame)
+# Merge Cubes — Test Assignment
 
 > Открыть сцену: `Assets/_Project/Scenes/Main.unity` → Play
 
