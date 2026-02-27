@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
@@ -205,22 +206,43 @@ namespace MergeCubes.Game.Board
 
         private async UniTask AnimateDestroyAsync(BlocksDestroyedEvent eventArgs)
         {
-            var allPositions = eventArgs.Regions.SelectMany(r => r).ToList();
-            var destroyTasks = new List<UniTask>(allPositions.Count);
+            var destroyTasks = new List<UniTask>();
 
-            foreach (var gridPosition in allPositions)
+            foreach (var region in eventArgs.Regions)
             {
-                if (!_viewsByGridPos.Remove(gridPosition, out var view))
-                {
-                    Debug.LogWarning("No view spawned for the destruction");
-                    continue;
-                }
+                var center = GetRegionCenter(region);
+                var sorted = region
+                    .OrderBy(p => ManhattanDistance(p, center))
+                    .ToList();
 
-                destroyTasks.Add(view.SelfDestroyAnimatedAsync(_gameConfig.BlockDestroyDuration));
+                for (var i = 0; i < sorted.Count; i++)
+                {
+                    if (!_viewsByGridPos.Remove(sorted[i], out var view))
+                        continue;
+
+                    var delay = i * _gameConfig.DestroyStaggerDelay;
+                    destroyTasks.Add(DestroyWithDelayAsync(view, delay));
+                }
             }
 
             await UniTask.WhenAll(destroyTasks);
             _normalizationController.NotifyDestroyCompleted();
         }
+
+        private async UniTask DestroyWithDelayAsync(BlockView view, float delay)
+        {
+            if (delay > 0f)
+                await UniTask.Delay(TimeSpan.FromSeconds(delay));
+            await view.SelfDestroyAnimatedAsync(_gameConfig.BlockDestroyDuration);
+        }
+
+        private GridPosition GetRegionCenter(HashSet<GridPosition> region) =>
+            new(
+                Mathf.RoundToInt((float)region.Average(p => p.X)),
+                Mathf.RoundToInt((float)region.Average(p => p.Z))
+            );
+
+        private int ManhattanDistance(GridPosition a, GridPosition b) =>
+            Mathf.Abs(a.X - b.X) + Mathf.Abs(a.Z - b.Z);
     }
 }

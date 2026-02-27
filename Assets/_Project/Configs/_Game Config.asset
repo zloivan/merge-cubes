@@ -35,3 +35,4 @@ MonoBehaviour:
   WinDelay: 5
   BlockDestroyDelay: 0.1
   BlockFallDelay: 0.3
+  DestroyStaggerDelay: 0.01
