@@ -27,7 +27,7 @@ Rule: if DOTween easing makes intent clearer → use DOTween. If Update is 3 lin
 
 ---
 
-## 3. Layer Map
+## 3. Layer Map (!!)
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -53,7 +53,7 @@ Rule: if DOTween easing makes intent clearer → use DOTween. If Update is 3 lin
 
 ---
 
-## 4. Core Classes & Responsibilities
+## 4. Core Classes & Responsibilities (!!)
 
 ### Domain
 | Class | Responsibility |
@@ -88,7 +88,7 @@ Rule: if DOTween easing makes intent clearer → use DOTween. If Update is 3 lin
 
 ---
 
-## 5. Key Data Flows
+## 5. Key Data Flows (!!)
 
 ### Swipe → Normalize
 ```
@@ -121,14 +121,13 @@ LevelData (ScriptableObject)
   BlockType[] InitialBlocks   // row-major, index = row * Width + col, row 0 = bottom
 ```
 
-Runtime levels loaded from `Resources/Levels/Level_001.asset` etc.  
-Three levels ship with the project; adding a new level = create new SO, fill grid, done – no code.
+Five levels ship with the project; adding a new level = create new SO, fill grid, done – no code.
 
 ---
 
 ## 7. GridSystem Integration
 
-GridSystem source is copied into `_Project/Scripts/Core/Grid/` — **not** a package reference.  
+GridSystem source is copied from another project into `_Project/Scripts/Core/Grid/` — **not** a package reference.  
 EventBus and SoundSystem remain as UPM package references.
 
 ### Vertical Grid Adaptation
@@ -142,21 +141,8 @@ The game requires a **vertical world-space grid** (X = column, Y = row, Z = 0) f
 - Overrides `GetNeighbors(GridPosition)` → same 4-directional as `GridSystemSquare` (no change needed)
 - This is the **only** grid system class used in this project; `GridSystemSquare` and `GridSystemHex` are kept but unused
 
-### GridDebugObject
 
-`GridDebugObject` is made **non-generic** for editor convenience:
-- Accepts `object _gridObject` (already the case in source)
-- Displays `_gridObject.ToString()` via `TextMesh`
-- No changes required beyond confirming it is non-generic
-
-### GridObject<T>
-
-`GridObject<T>` remains generic — it is a cell container. For this project `T = BlockView`, so the grid stores direct references to view objects.  
-Note: `BoardModel` uses its own plain `BlockType[,]` array — `GridObject<T>` is only used by `BoardView`/presentation layer for world position lookups.
-
----
-
-## 8. Camera & Resolution Fit
+## 8. Camera & Resolution Fit (!!)
 
 **Orthographic camera** — mandatory for flat world-space grid.
 
@@ -184,22 +170,22 @@ if (requiredHalfWidth > cameraHalfWidth)
 | Runtime save | JSON (`persistentDataPath`) | `SaveService` | `SaveService` |
 | Domain state | Pure C# POCOs | Controllers | Controllers, Views via events |
 
-**ScriptableObjects are read-only in runtime builds.** Never write to them at runtime.  
+**ScriptableObjects are designed to read-only in runtime builds.**
 `SaveData` is a plain C# class: `{ int levelIndex; int[] blocks; }`.  
 `LevelRepository` converts `LevelData` SO → plain `LevelState` struct before handing to controllers.
 
-**Centralized config:** One `GameConfig` SO holds references to `BlockConfig[]`, `BalloonConfig`, level list, camera padding, animation timings.
+**Centralized config:** One `GameConfigSO` SO holds references to `BlockConfigSO[]`, `BalloonConfigSO`, level list, camera padding, animation timings.
 
 ---
 
-## 10. VContainer Scene Scope
+## 10. VContainer Scene Scope (!!)
 
 ```
 GameLifetimeScope
-  ├─ GameConfig (SO) – bind as instance
+  ├─ GameConfig (SO) 
   ├─ LevelRepository
   ├─ SaveService
-  ├─ BoardModel         (new() – plain C#)
+  ├─ BoardModel        
   ├─ SwipeValidator
   ├─ GravityResolver
   ├─ MatchFinder
@@ -215,7 +201,7 @@ GameLifetimeScope
 
 ---
 
-## 11. Events (EventBus<T>)
+## 11. Events (EventBus<T>) (!!)
 
 | Event | Payload | Raised by | Consumed by |
 |---|---|---|---|
@@ -229,28 +215,3 @@ GameLifetimeScope
 | `RestartRequestedEvent` | – | HUDController | GameController |
 | `NextLevelRequestedEvent` | – | HUDController | LevelController |
 
----
-
-## 12. GitHub Projects – Labels
-
-| Label | Color | Usage |
-|---|---|---|
-| `feature` | blue | New functionality |
-| `bug` | red | Defect |
-| `config` | yellow | Data / SO / serialization |
-| `arch` | purple | Setup, DI, structure |
-| `polish` | pink | Animations, feel, UX |
-| `docs` | gray | README, video, submission |
-| `blocked` | orange | Waiting on dependency |
-
----
-
-## 13. Day-by-Day Schedule
-
-| Day | Focus | Milestone target |
-|---|---|---|
-| Mon | Bootstrap + Board Logic | M1, M2 |
-| Tue | Presentation + Input | M3 |
-| Wed | Save + Integration | M4, M5 |
-| Thu | Polish only | M6 |
-| Fri | Release prep + submission | M7 |
