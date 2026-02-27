@@ -26,6 +26,8 @@ namespace MergeCubes.Config
         public float BlockDestroyDelay;
         public float BlockFallDelay;
         public float DestroyStaggerDelay = 0.06f;
+        public float ShakeForce = 0.3f;
+        public float ShakeDelay = 0.15f;
 
         public BlockConfigSO GetBlockConfig(BlockType blockType) =>
             Array.Find(BlockConfigs, c => c.BlockType == blockType);

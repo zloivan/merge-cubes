@@ -36,3 +36,5 @@ MonoBehaviour:
   BlockDestroyDelay: 0.1
   BlockFallDelay: 0.3
   DestroyStaggerDelay: 0.01
+  ShakeForce: 0.2
+  ShakeDelay: 0.5

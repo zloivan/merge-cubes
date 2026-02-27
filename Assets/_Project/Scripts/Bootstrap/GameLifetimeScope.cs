@@ -25,6 +25,7 @@ namespace MergeCubes.Bootstrap
         [SerializeField] private GameController _gameController;
         
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private CameraShakeController _shakeControlle;
         [SerializeField] private Camera _mainCamera;
 
         protected override void Configure(IContainerBuilder builder)
@@ -44,6 +45,7 @@ namespace MergeCubes.Bootstrap
             builder.Register<SaveService>(Lifetime.Singleton).As<ISaveService>();
 
             builder.RegisterComponent(_inputService);
+            builder.RegisterComponent(_shakeControlle);
             builder.RegisterComponent(_boardView);
             builder.RegisterComponent(_cameraFitter);
             builder.RegisterComponent(_balloonSpawner);
