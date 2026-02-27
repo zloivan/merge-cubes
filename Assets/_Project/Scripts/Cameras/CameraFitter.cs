@@ -3,7 +3,7 @@ using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Events;
 using UnityEngine;
 
-namespace MergeCubes.Utilities
+namespace MergeCubes.Cameras
 {
     public class CameraFitter : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using MergeCubes.Events;
 using UnityEngine;
 using VContainer;
 
-namespace MergeCubes.Utilities
+namespace MergeCubes.Cameras
 {
     [DefaultExecutionOrder(-10)]
     public class BackgroundFitter : MonoBehaviour

@@ -7,7 +7,7 @@ using MergeCubes.Events;
 using UnityEngine;
 using VContainer;
 
-namespace MergeCubes.Utilities
+namespace MergeCubes.Cameras
 {
     public class CameraShakeController : MonoBehaviour
     {

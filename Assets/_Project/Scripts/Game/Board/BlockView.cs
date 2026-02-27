@@ -6,7 +6,7 @@ using MergeCubes.Core.Grid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace MergeCubes.Game.Blocks
+namespace MergeCubes.Game.Board
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(BoxCollider2D))]

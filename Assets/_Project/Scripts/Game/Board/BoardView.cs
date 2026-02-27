@@ -6,7 +6,6 @@ using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Config;
 using MergeCubes.Core.Grid;
 using MergeCubes.Events;
-using MergeCubes.Game.Blocks;
 using UnityEngine;
 using VContainer;
 

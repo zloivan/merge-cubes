@@ -1,4 +1,4 @@
-using MergeCubes.Game.Blocks;
+using MergeCubes.Game.Board;
 
 namespace MergeCubes.Game.Level
 {

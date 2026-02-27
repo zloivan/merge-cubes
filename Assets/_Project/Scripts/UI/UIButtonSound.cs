@@ -3,7 +3,7 @@ using MergeCubes.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MergeCubes.Utilities
+namespace MergeCubes.UI
 {
     [RequireComponent(typeof(Button))]
     public class UIButtonSound : MonoBehaviour

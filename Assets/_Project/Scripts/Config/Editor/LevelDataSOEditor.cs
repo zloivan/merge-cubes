@@ -1,10 +1,9 @@
 using System;
-using MergeCubes.Config;
-using MergeCubes.Game.Blocks;
+using MergeCubes.Game.Board;
 using UnityEditor;
 using UnityEngine;
 
-namespace MergeCubes._Project.Scripts.Config.Editor
+namespace MergeCubes.Config.Editor
 {
     [CustomEditor(typeof(LevelDataSO))]
     public class LevelDataSOEditor : UnityEditor.Editor

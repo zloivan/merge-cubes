@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 using MergeCubes.Config;
-using MergeCubes.Game.Blocks;
+using MergeCubes.Game.Board;
 
 namespace MergeCubes.Game.Level
 {
