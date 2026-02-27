@@ -18,13 +18,14 @@ namespace MergeCubes.Game.Board
     {
         [SerializeField] private Transform _blockViewContainer;
         [SerializeField] private BlockView _blockViewPrefab;
-
+        [SerializeField] private Transform _gridAnchor;
+        
         private readonly Dictionary<GridPosition, BlockView> _viewsByGridPos = new();
         private BoardModel _boardModel;
         private NormalizationController _normalizationController;
         private GameConfigSO _gameConfig;
         private GridSystemVertical<GridObject> _gridSystem;
-
+        
 
         private EventBinding<LevelLoadedEvent> _onLevelLoaded;
         private EventBinding<SwapExecutedEvent> _onSwapExecuted;
@@ -84,11 +85,11 @@ namespace MergeCubes.Game.Board
         private Vector3 GetGridOrigin()
         {
             var gridWorldWidth = _boardModel.GetWidth() * _gameConfig.CellSize;
-            var gridWorldHeight = _boardModel.GetHeight() * _gameConfig.CellSize;
+            var anchorPos = _gridAnchor ? _gridAnchor.position : Vector3.zero;
 
             return new Vector3(
-                -(gridWorldWidth - _gameConfig.CellSize) / 2f,
-                -(gridWorldHeight - _gameConfig.CellSize) / 2f,
+                anchorPos.x - (gridWorldWidth - _gameConfig.CellSize) / 2f,
+                anchorPos.y,
                 0f);
         }
 

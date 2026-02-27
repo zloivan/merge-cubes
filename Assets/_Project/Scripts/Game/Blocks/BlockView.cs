@@ -4,6 +4,7 @@ using DG.Tweening;
 using MergeCubes.Config;
 using MergeCubes.Core.Grid;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MergeCubes.Game.Blocks
 {
@@ -12,6 +13,7 @@ namespace MergeCubes.Game.Blocks
     [RequireComponent(typeof(SpriteRenderer))]
     public class BlockView : MonoBehaviour
     {
+        private const string IDLE_STATE_KEY = "Idle";
         private const string IDLE_ANIMATION_KEY = "anim_BlockIdle";
         private const string DESTROY_ANIMATION_KEY = "anim_BlockDestroy";
         private static readonly int DestroyTriggerHash = Animator.StringToHash("Destroy");
@@ -38,9 +40,14 @@ namespace MergeCubes.Game.Blocks
         {
             _spriteRenderer.sprite = blockConfig.Sprite;
             _boardWidth = boardWidth;
-            var animatorOverrides = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-            animatorOverrides[IDLE_ANIMATION_KEY] = blockConfig.IdleClip;
-            animatorOverrides[DESTROY_ANIMATION_KEY] = blockConfig.DestroyClip;
+            _animator.Play(IDLE_STATE_KEY, 0, Random.Range(0f, 1f));
+            
+            var animatorOverrides = new AnimatorOverrideController(_animator.runtimeAnimatorController)
+            {
+                [IDLE_ANIMATION_KEY] = blockConfig.IdleClip,
+                [DESTROY_ANIMATION_KEY] = blockConfig.DestroyClip,
+            };
+            
             _animator.runtimeAnimatorController = animatorOverrides;
         }
 
