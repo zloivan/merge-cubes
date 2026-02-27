@@ -23,6 +23,7 @@ namespace MergeCubes.Config
         public Ease BlockSwapEase;
         public Ease BlockFallEase;
         public float WinDelay = 5f;
+        public float NormalizationDelay;
 
         public BlockConfigSO GetBlockConfig(BlockType blockType) =>
             Array.Find(BlockConfigs, c => c.BlockType == blockType);

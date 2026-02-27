@@ -23,13 +23,14 @@ MonoBehaviour:
   CellSize: 2
   CameraVerticalPadding: 0
   CameraHorizontalPadding: 0
-  BlockFallDuration: 0.5
-  BlockSwapDuration: 0.2
-  BlockDestroyDuration: 1.5
+  BlockFallDuration: 0.4
+  BlockSwapDuration: 0.3
+  BlockDestroyDuration: 0.65
   BlockLayer:
     serializedVersion: 2
     m_Bits: 64
   MinSwipeDistance: 0
-  BlockSwapEase: 1
-  BlockFallEase: 1
+  BlockSwapEase: 6
+  BlockFallEase: 5
   WinDelay: 5
+  NormalizationDelay: 0.3

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using IKhom.EventBusSystem.Runtime;
 using JetBrains.Annotations;
@@ -26,7 +27,8 @@ namespace MergeCubes.Bootstrap
 
         private EventBinding<NormalizationCompletedEvent> _onNormalizationCompleted;
         private EventBinding<NextLevelRequestedEvent> _onNextLevelRequested;
-
+        private EventBinding<LevelLoadedEvent> _onLevelLoaded;
+        private CancellationTokenSource _cts;
 
         public LevelController(BoardModel boardModel, ILevelRepository levelRepository,
             GameConfigSO gameConfig)
@@ -40,19 +42,31 @@ namespace MergeCubes.Bootstrap
         {
             _onNormalizationCompleted = new EventBinding<NormalizationCompletedEvent>(HandleNormalizationComplete);
             _onNextLevelRequested = new EventBinding<NextLevelRequestedEvent>(HandleNextLevelRequested);
+            _onLevelLoaded = new EventBinding<LevelLoadedEvent>(HandleLevelLoaded);
 
             EventBus<NormalizationCompletedEvent>.Register(_onNormalizationCompleted);
+            EventBus<LevelLoadedEvent>.Register(_onLevelLoaded);
             EventBus<NextLevelRequestedEvent>.Register(_onNextLevelRequested);
         }
-
-        private void HandleNormalizationComplete(NormalizationCompletedEvent _) =>
-            CheckWin().Forget();
 
         public void Dispose()
         {
             EventBus<NormalizationCompletedEvent>.Deregister(_onNormalizationCompleted);
             EventBus<NextLevelRequestedEvent>.Deregister(_onNextLevelRequested);
+            EventBus<LevelLoadedEvent>.Deregister(_onLevelLoaded);
+            
+            _cts?.Cancel();
+            _cts = null;
         }
+
+        private void HandleLevelLoaded(LevelLoadedEvent obj)
+        {
+            _cts?.Cancel();
+            _cts = null;
+        }
+
+        private void HandleNormalizationComplete(NormalizationCompletedEvent _) =>
+            CheckWin().Forget();
 
         public void LoadLevel(int levelIndex)
         {
@@ -84,7 +98,8 @@ namespace MergeCubes.Bootstrap
                 return;
 
             EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
-            await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.WinDelay));
+            _cts = new CancellationTokenSource();
+            await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.WinDelay), cancellationToken: _cts.Token);
             LoadLevel(_levelRepository.GetNextIndex(_currentLevelIndex));
         }
 

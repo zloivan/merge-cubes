@@ -58,7 +58,7 @@ namespace MergeCubes.Game.Blocks
 
         public async UniTask MoveToAsync(Vector3 position, float duration,
             Ease ease) =>
-            await transform.DOMove(position, duration, true).SetEase(ease).ToUniTask();
+            await transform.DOMove(position, duration).SetEase(ease).ToUniTask();
 
         public async UniTask SelfDestroyAnimatedAsync(float duration)
         {

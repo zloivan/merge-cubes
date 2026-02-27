@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using IKhom.EventBusSystem.Runtime;
+using MergeCubes.Config;
 using MergeCubes.Events;
 
 namespace MergeCubes.Game.Board
@@ -14,6 +16,7 @@ namespace MergeCubes.Game.Board
         private readonly BoardModel _boardModel;
         private readonly GravityResolver _gravityResolver;
         private readonly MatchFinder _matchFinder;
+        private readonly GameConfigSO _gameConfig;
 
         private UniTaskCompletionSource _fallCompleted;
         private UniTaskCompletionSource _destroyCompleted;
@@ -22,11 +25,13 @@ namespace MergeCubes.Game.Board
 
         private bool _isNormalizing;
 
-        public NormalizationController(BoardModel boardModel, GravityResolver gravityResolver, MatchFinder matchFinder)
+        public NormalizationController(BoardModel boardModel, GravityResolver gravityResolver, MatchFinder matchFinder,
+            GameConfigSO gameConfig)
         {
             _boardModel = boardModel;
             _gravityResolver = gravityResolver;
             _matchFinder = matchFinder;
+            _gameConfig = gameConfig;
         }
 
         public async UniTask RunCycleAsync()
@@ -43,6 +48,7 @@ namespace MergeCubes.Game.Board
             {
                 while (true)
                 {
+                    await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.NormalizationDelay), cancellationToken: token);
                     var matched = await TryApplyMatchesAsync(token);
                     var dropped = await TryApplyGravityAsync(token);
 
