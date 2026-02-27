@@ -48,7 +48,6 @@ namespace MergeCubes.Game.Board
             {
                 while (true)
                 {
-                    await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.NormalizationDelay), cancellationToken: token);
                     var matched = await TryApplyMatchesAsync(token);
                     var dropped = await TryApplyGravityAsync(token);
 
@@ -96,6 +95,7 @@ namespace MergeCubes.Game.Board
             }
 
             _destroyCompleted = new UniTaskCompletionSource();
+            await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.BlockDestroyDelay), cancellationToken: token);
             EventBus<BlocksDestroyedEvent>.Raise(new BlocksDestroyedEvent(regions));
             await _destroyCompleted.Task.AttachExternalCancellation(token);
 
@@ -115,8 +115,8 @@ namespace MergeCubes.Game.Board
             }
 
             _fallCompleted = new UniTaskCompletionSource();
+            await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.BlockFallDelay), cancellationToken: token);
             EventBus<BlocksFellEvent>.Raise(new BlocksFellEvent(drops));
-
             await _fallCompleted.Task.AttachExternalCancellation(token);
             return true;
         }
