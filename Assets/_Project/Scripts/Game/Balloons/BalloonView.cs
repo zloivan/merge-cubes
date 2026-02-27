@@ -1,5 +1,5 @@
 using System;
-using MergeCubes.Editor;
+using MergeCubes.Config;
 using UnityEngine;
 
 namespace MergeCubes.Game.Balloons

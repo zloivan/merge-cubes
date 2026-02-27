@@ -6,12 +6,10 @@ using JetBrains.Annotations;
 using MergeCubes.Config;
 using MergeCubes.Events;
 using MergeCubes.Game.Board;
-using MergeCubes.Game.Level;
 using MergeCubes.Saving;
-using UnityEngine;
 using VContainer.Unity;
 
-namespace MergeCubes.Bootstrap
+namespace MergeCubes.Game.Level
 {
     /// <summary>
     /// Manages level lifecycle: load, win detection, advance. Coordinates with SaveService and LevelRepository.

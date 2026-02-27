@@ -4,7 +4,6 @@ using IKhom.EventBusSystem.Runtime;
 using JetBrains.Annotations;
 using MergeCubes.Core.Grid;
 using MergeCubes.Events;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace MergeCubes.Game.Board

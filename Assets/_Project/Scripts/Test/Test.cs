@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using IKhom.EventBusSystem.Runtime;
 using MergeCubes.Config;

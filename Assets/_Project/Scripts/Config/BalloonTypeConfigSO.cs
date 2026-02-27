@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MergeCubes.Editor
+namespace MergeCubes.Config
 {
     [CreateAssetMenu(fileName = "New Balloon Config", menuName = "MergeCubes/Balloon Type Config", order = 0)]
     public class BalloonTypeConfigSO : ScriptableObject

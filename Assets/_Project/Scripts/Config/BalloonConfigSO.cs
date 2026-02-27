@@ -1,4 +1,3 @@
-using MergeCubes.Editor;
 using UnityEngine;
 
 namespace MergeCubes.Config
