@@ -88,7 +88,12 @@ namespace MergeCubes.Bootstrap
         private void OnApplicationQuit() =>
             Save();
 
-        private void Save() =>
+        private void Save()
+        {
+            if (_boardModel.IsAllEmpty())
+                return;
+            
             _saveService.SaveAsync(SaveDataConverter.FromBoard(_boardModel, _levelController.GetCurrentLevelIndex()));
+        }
     }
 }
