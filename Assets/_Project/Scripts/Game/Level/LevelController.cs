@@ -7,6 +7,7 @@ using MergeCubes.Events;
 using MergeCubes.Game.Board;
 using MergeCubes.Game.Level;
 using MergeCubes.Saving;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace MergeCubes.Bootstrap
@@ -79,9 +80,10 @@ namespace MergeCubes.Bootstrap
 
         private async UniTask CheckWin()
         {
-            if (_boardModel.IsAllEmpty())
-                EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
+            if (!_boardModel.IsAllEmpty())
+                return;
 
+            EventBus<LevelWonEvent>.Raise(new LevelWonEvent());
             await UniTask.Delay(TimeSpan.FromSeconds(_gameConfig.WinDelay));
             LoadLevel(_levelRepository.GetNextIndex(_currentLevelIndex));
         }

@@ -30,6 +30,7 @@ namespace MergeCubes.Game.Board
         private EventBinding<SwapExecutedEvent> _onSwapExecuted;
         private EventBinding<BlocksFellEvent> _onBlocksFell;
         private EventBinding<BlocksDestroyedEvent> _onBlocksDestroyed;
+        private EventBinding<BlockMovedEvent> _onBlockMoved;
 
         [Inject]
         public void Construct(BoardModel boardModel, NormalizationController normalizationController,
@@ -56,6 +57,9 @@ namespace MergeCubes.Game.Board
 
             _onBlocksDestroyed = new EventBinding<BlocksDestroyedEvent>(HandleBlocksDestroyed);
             EventBus<BlocksDestroyedEvent>.Register(_onBlocksDestroyed);
+            
+            _onBlockMoved = new EventBinding<BlockMovedEvent>(HandleBlockMoved);
+            EventBus<BlockMovedEvent>.Register(_onBlockMoved);
         }
 
         private void OnDestroy()
@@ -64,6 +68,7 @@ namespace MergeCubes.Game.Board
             EventBus<SwapExecutedEvent>.Deregister(_onSwapExecuted);
             EventBus<BlocksFellEvent>.Deregister(_onBlocksFell);
             EventBus<BlocksDestroyedEvent>.Deregister(_onBlocksDestroyed);
+            EventBus<BlockMovedEvent>.Deregister(_onBlockMoved);
         }
 
         private void HandleLevelLoaded(LevelLoadedEvent eventArgs)
@@ -123,30 +128,41 @@ namespace MergeCubes.Game.Board
             return blockView;
         }
 
-        private void HandleSwapExecuted(SwapExecutedEvent eventArg)
+        private void HandleSwapExecuted(SwapExecutedEvent e)
         {
             //Check if there are views spawned
             //convert swap grid pos to world pos
             //move both blocks to destination world position
             //update dictionary and grid position of views
 
-            if (!_viewsByGridPos.TryGetValue(eventArg.A, out var a)
-                || !_viewsByGridPos.TryGetValue(eventArg.B, out var b))
+            if (!_viewsByGridPos.TryGetValue(e.A, out var a)
+                || !_viewsByGridPos.TryGetValue(e.B, out var b))
             {
                 Debug.Log("No Views spawned for the swap");
                 return;
             }
 
-            var aWorldPos = _gridSystem.GetWorldPosition(eventArg.A);
-            var bWorldPos = _gridSystem.GetWorldPosition(eventArg.B);
+            var aWorldPos = _gridSystem.GetWorldPosition(e.A);
+            var bWorldPos = _gridSystem.GetWorldPosition(e.B);
 
             a.MoveToAsync(bWorldPos, _gameConfig.BlockSwapDuration, _gameConfig.BlockSwapEase).Forget();
             b.MoveToAsync(aWorldPos, _gameConfig.BlockSwapDuration, _gameConfig.BlockSwapEase).Forget();
 
-            _viewsByGridPos[eventArg.A] = b;
-            _viewsByGridPos[eventArg.B] = a;
-            b.SetGridPosition(eventArg.A);
-            a.SetGridPosition(eventArg.B);
+            _viewsByGridPos[e.A] = b;
+            _viewsByGridPos[e.B] = a;
+            b.SetGridPosition(e.A);
+            a.SetGridPosition(e.B);
+        }
+        
+        private void HandleBlockMoved(BlockMovedEvent e)
+        {
+            if (!_viewsByGridPos.Remove(e.From, out var view))
+                return;
+
+            var worldTo = _gridSystem.GetWorldPosition(e.To);
+            _viewsByGridPos[e.To] = view;
+            view.SetGridPosition(e.To);
+            view.MoveToAsync(worldTo, _gameConfig.BlockSwapDuration, _gameConfig.BlockSwapEase).Forget();
         }
 
         private void HandleBlocksFell(BlocksFellEvent eventArgs) =>

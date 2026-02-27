@@ -47,11 +47,15 @@ namespace MergeCubes.Game.Board
             if (!_swipeValidator.Validate(e.From, e.Dir, _boardModel))
                 return;
 
-            ApplyMove(e.From, e.Dir);
+            var to = e.From + e.Dir.ToOffset();
+            var isEmpty = _boardModel.IsEmpty(to);
             
+            ApplyMove(e.From, e.Dir);
 
-            EventBus<SwapExecutedEvent>.Raise(new SwapExecutedEvent(e.From,
-                e.From + e.Dir.ToOffset()));
+            if (isEmpty)
+                EventBus<BlockMovedEvent>.Raise(new BlockMovedEvent(e.From, to));
+            else
+                EventBus<SwapExecutedEvent>.Raise(new SwapExecutedEvent(e.From, to));
             
             _normalizationController.RunCycleAsync().Forget();
         }
